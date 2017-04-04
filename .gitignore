@@ -34,3 +34,5 @@
 *.suo
 *.db
 *.opendb
+
+build-Debug\
