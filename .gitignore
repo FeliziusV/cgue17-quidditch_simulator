@@ -6,3 +6,7 @@
 
 bin/build
 
+# Some database files i dont know about
+*.opendb
+*.db
+
