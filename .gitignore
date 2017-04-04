@@ -35,4 +35,4 @@
 *.db
 *.opendb
 
-build-Debug\
+build-Debug/
