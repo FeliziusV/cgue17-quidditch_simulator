@@ -9,3 +9,4 @@ build-Release
 
 #opendb file
 *.opendb
+*.db
