@@ -1,10 +1,10 @@
 #pragma once
 #include <GL\glew.h>
 #include "SceneObject.h"
-#include "shader1.h"
-#ifdef SCENE_OBECT
+#include "..\shader1.h"
 
-#define CUBE_VERTEXT_COUNT 8
+
+#define CUBE_VERTEX_COUNT 8
 #define CUBE_INDEX_COUNT 36
 
 namespace cgue {
@@ -23,11 +23,9 @@ namespace cgue {
 			GLuint positionBuffer, indexBuffer;
 			Shader* shader;
 
-			static vonst float positions[CUBE_VERTEX_COUNT * 3];
+			static const float positions[CUBE_VERTEX_COUNT * 3];
 			static const unsigned int indices[CUBE_INDEX_COUNT];
 		};
 	}
 }
 
-
-#endif

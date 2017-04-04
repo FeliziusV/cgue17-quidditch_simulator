@@ -7,9 +7,9 @@
 #include "scene\Cube.h"
 
 #include "shader1.h"
+
 using namespace cgue;
 
-#include "scene/cube.h"
 using namespace cgue::scene;
 
 
@@ -22,7 +22,7 @@ void glfw_on_error(int error_code, const char* desc);
 
 
 std::unique_ptr<Shader> shader1;
-std::unique_ptr<Cube> Cube;
+std::unique_ptr<Cube> cube;
 
 int main() {
 
@@ -160,7 +160,7 @@ void init(GLFWwindow* window) {
 
 	shader1 = std::make_unique<Shader>("../Shader/basic.vert", "../Shader/basic.frag");
 
-	cube = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
+	cube = std::make_unique<Cube>(glm::mat4(1.0f), shader1.get());
 
 }
 void update() { 
@@ -170,12 +170,12 @@ void update() {
 void draw() {
 	shader1->useShader();
 
-	triangle->draw();
+	cube->draw();
 }
 
 void cleanup() {
 	shader1.reset(nullptr);
-	triangle.reset(nullptr);
+	cube.reset(nullptr);
 }
 
 /*

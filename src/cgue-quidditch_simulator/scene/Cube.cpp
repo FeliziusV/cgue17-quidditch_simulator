@@ -1,10 +1,10 @@
 #include "Cube.h"
 
 #include <glm/gtc/matrix_transform.hpp>
-#ifdef SCENE_OBJECT
+
 
 using namespace cgue;
-using namespace scene;
+using namespace cgue::scene;
 
 Cube::Cube()
 	: SceneObject(glm::mat4(1.0f)) {
@@ -16,13 +16,13 @@ Cube::Cube(glm::mat4& matrix, Shader* _shader)
 	: SceneObject(matrix), shader(_shader){
 
 	glGenBuffers(1, &positionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, positonBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, CUBE_VERTEX_COUNT * sizeof(glm::vec3), positions, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, &positionBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, positonBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, CUBE_INDEX_COUNT * sizeof(glm::unsigned int), indices, GL_STATIC_DRAW);
+	glGenBuffers(1, &indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, CUBE_INDEX_COUNT * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// Generate bindings
@@ -30,7 +30,8 @@ Cube::Cube(glm::mat4& matrix, Shader* _shader)
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-	auto positonIndex = glGetAttributLocation(shader->programHandle, "positoin");
+	auto positionIndex = glGetAttribLocation(shader->programHandle, "position");
+	glEnableVertexAttribArray(positionIndex);
 	glVertexAttribPointer(positionIndex, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -53,7 +54,7 @@ void Cube::update() {
 void Cube::draw() {
 	glBindVertexArray(vao);
 
-	glDrawElements(GL_TRIANGLES, CUBE_INDEX_COUNT, GL_UNSIGNEDD_INT, 0);
+	glDrawElements(GL_TRIANGLES, CUBE_INDEX_COUNT, GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
 }
@@ -91,5 +92,3 @@ const unsigned int Cube::indices[CUBE_INDEX_COUNT] = {
 	0, 4, 7,
 	0, 7, 3
 };
-
-#endif
