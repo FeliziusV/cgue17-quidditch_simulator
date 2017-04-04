@@ -1,12 +1,37 @@
-#Intellisens Database
-*.sdf
+# Prerequisites
+*.d
 
-#User settings
-*.suo, *.user 
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
 
-bin/build
+# Precompiled Headers
+*.gch
+*.pch
 
-# Some database files i dont know about
-*.opendb
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# something...
+*.suo
 *.db
-
+*.opendb
