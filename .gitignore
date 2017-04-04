@@ -1,8 +1,8 @@
 #Intellisens Database
-.sdf
+*.sdf
 
 #User settings
-.suo, .user 
+*.suo, *.user 
 
 bin/build
 
