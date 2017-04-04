@@ -27,3 +27,7 @@
 *.exe
 *.out
 *.app
+
+# Some database files i dont know about
+*.opendb
+*.db
