@@ -8,5 +8,6 @@ build-Debug
 build-Release
 
 #opendb file
+
 *.opendb
-*.db
+*.VC.db
