@@ -152,7 +152,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="scene\Cube.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="scene\SceneObject.cpp" />
+    <ClCompile Include="shader1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="scene\Cube.h" />
+    <ClInclude Include="scene\SceneObject.h" />
+    <ClInclude Include="shader1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

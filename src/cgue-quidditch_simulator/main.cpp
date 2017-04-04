@@ -4,7 +4,13 @@
 #include <sstream>
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
+#include "scene\Cube.h"
 
+#include "shader1.h"
+using namespace cgue;
+
+#include "scene/cube.h"
+using namespace cgue::scene;
 
 
 void init(GLFWwindow* window);
@@ -14,6 +20,9 @@ void draw();
 void cleanup();
 void glfw_on_error(int error_code, const char* desc);
 
+
+std::unique_ptr<Shader> shader1;
+std::unique_ptr<Cube> Cube;
 
 int main() {
 
@@ -149,15 +158,24 @@ static void APIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, GLenum
 void init(GLFWwindow* window) {
 	glfwSetWindowTitle(window, "CGUE Project");
 
+	shader1 = std::make_unique<Shader>("../Shader/basic.vert", "../Shader/basic.frag");
+
+	cube = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
+
 }
-void update() {  }
+void update() { 
+	cube->update();
+}
 
 void draw() {
+	shader1->useShader();
 
+	triangle->draw();
 }
 
 void cleanup() {
-
+	shader1.reset(nullptr);
+	triangle.reset(nullptr);
 }
 
 /*
