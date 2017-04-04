@@ -1,0 +1,8 @@
+#Intellisens Database
+.sdf
+
+#User settings
+.suo, .user 
+
+src/build-Debug
+src/build-Release
