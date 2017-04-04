@@ -4,5 +4,5 @@
 #User settings
 .suo, .user 
 
-src/build-Debug
-src/build-Release
+build-Debug
+build-Release
