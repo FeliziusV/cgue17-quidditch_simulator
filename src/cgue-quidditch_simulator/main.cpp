@@ -158,7 +158,7 @@ static void APIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, GLenum
 void init(GLFWwindow* window) {
 	glfwSetWindowTitle(window, "CGUE Project");
 
-	shader1 = std::make_unique<Shader>("../Shader/basic.vert", "../Shader/basic.frag");
+	shader1 = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
 
 	cube = std::make_unique<Cube>(glm::mat4(1.0f), shader1.get());
 
