@@ -1,4 +1,0 @@
-﻿  LINK : C:\Users\josch_000\Documents\Visual Studio 2015\Projects\cgue17-quidditch_simulator\src\Debug\cgue-quidditch_simulator.exe not found or not built by the last incremental link; performing full link
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  cgue-quidditch_simulator.vcxproj -> C:\Users\josch_000\Documents\Visual Studio 2015\Projects\cgue17-quidditch_simulator\src\Debug\cgue-quidditch_simulator.exe
-  cgue-quidditch_simulator.vcxproj -> C:\Users\josch_000\Documents\Visual Studio 2015\Projects\cgue17-quidditch_simulator\src\Debug\cgue-quidditch_simulator.pdb (Full PDB)
