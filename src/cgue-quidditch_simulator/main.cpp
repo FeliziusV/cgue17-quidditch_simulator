@@ -1,8 +1,8 @@
+#include <GL\glew.h>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <sstream>
-#include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include "scene\Cube.h"
 

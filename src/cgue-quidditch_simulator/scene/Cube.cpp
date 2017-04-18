@@ -15,27 +15,45 @@ Cube::Cube()
 Cube::Cube(glm::mat4& matrix, Shader* _shader) 
 	: SceneObject(matrix), shader(_shader){
 
+	//Buffer für positionen
+
+	//erstelle einen buffer und schreibe ihn in positionBuffer
 	glGenBuffers(1, &positionBuffer);
+	//bind positionbuffer als arraybuffer, der irgendwelche attributsdaten speichert
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+	//kopiere daten auf den gpu speicher drauf
+	//cube vertext count ist eine eigene Variable
 	glBufferData(GL_ARRAY_BUFFER, CUBE_VERTEX_COUNT * sizeof(glm::vec3), positions, GL_STATIC_DRAW);
+	//Wenn daten hochgeladen sind kann der buffer unbinded werden
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	//Erstelle indexbuffer für index daten
 	glGenBuffers(1, &indexBuffer);
+	//arbeite jetzt mit element array buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, CUBE_INDEX_COUNT * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	// Generate bindings
+	// Erstelle VAOS und speichere is in vao klassenvariable
 	glGenVertexArrays(1, &vao);
+	//bind das vao
 	glBindVertexArray(vao);
 
+	//setze vertex attribute pointer auf
+	//dazu den positionbuffer binden
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+	//welche location hat die positionsvariable im shader (shortcut mit layout dingsi siehe day 3 folien)
 	auto positionIndex = glGetAttribLocation(shader->programHandle, "position");
+	//enable die location und übergebe den abgefragten index
 	glEnableVertexAttribArray(positionIndex);
+	//teile mit wie die daten zu interpretieren sind
+	//zuerst die location, wiviele datenelemente gehören dazu, welcher typ sind die daten, rest standartwerte
 	glVertexAttribPointer(positionIndex, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+	//bind elementarray buffer um auch den indexbuffer im vao zu haben
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 
+	//jetzt noch unbinden zuerst das vao unbinden, dann die vbos
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -52,10 +70,15 @@ void Cube::update() {
 }
 
 void Cube::draw() {
+	//aktiviere das vao
 	glBindVertexArray(vao);
 
+	//danach die daten zeichnen
+	//parameter: 1: welche art und weise sollen die daten gezeichnet werden, 2: wieviele elemente sollen gezeichent werden
+	//3: Welche format liegen die indexdaten vor, 4: bei welcher location soll es starten
 	glDrawElements(GL_TRIANGLES, CUBE_INDEX_COUNT, GL_UNSIGNED_INT, 0);
 
+	//unbind das vao um keine nachfolgenden operationen zu beeinflussen
 	glBindVertexArray(0);
 }
 
@@ -73,6 +96,8 @@ const float Cube::positions[CUBE_VERTEX_COUNT * 3] = {
 	-0.5f, -0.5f, 0.5f
 };
 
+
+//beschreibt welche eckpunkte zu dreiecken zusammengefasst werden
 const unsigned int Cube::indices[CUBE_INDEX_COUNT] = {
 	0, 1, 2,
 	0, 2, 3,
