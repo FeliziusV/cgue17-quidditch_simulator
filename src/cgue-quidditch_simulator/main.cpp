@@ -24,7 +24,7 @@ void glfw_on_error(int error_code, const char* desc);
 std::unique_ptr<Shader> shader1;
 std::unique_ptr<Cube> cube;
 
-int main() {
+int main(int argc, char** argv) {
 
 
 	//(1) init glfw
@@ -36,8 +36,23 @@ int main() {
 
 	}
 
-	const int widht = 800;
-	const int height = 600;
+	int width = 800;
+	int height = 600;
+
+	//commandline attributes for window size
+	if (argc >= 3) {
+		std::cout << "Your are executing '" << argv[0] << "'" << std::endl;
+
+		if ((std::stringstream(argv[1]) >> width).fail()) {
+			std::cerr << "ERROR: Could not parse first command-line-argument as integer." << std::endl;
+			exit(EXIT_FAILURE);
+		}
+		if ((std::stringstream(argv[2]) >> height).fail()) {
+			std::cerr << "ERROR: Could not parse second command-line-argument as integer." << std::endl;
+			exit(EXIT_FAILURE);
+		}
+
+	}
 
 	//(2) set window hints
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -50,7 +65,7 @@ int main() {
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//(3) open window
-	auto window = glfwCreateWindow(widht, height, "Hello, CGUE!", nullptr, nullptr);
+	auto window = glfwCreateWindow(width, height, "Hello, CGUE!", nullptr, nullptr);
 	if (!window) {
 		std::cerr << "ERROR: Could not open window" << std::endl;
 		glfwTerminate();
@@ -104,7 +119,7 @@ int main() {
 
 
 	glClearColor(0.35f, 0.36f, 0.43f, 0.3f);
-	glViewport(0, 0, widht, height);
+	glViewport(0, 0, width, height);
 
 	bool running = true;
 	auto time = glfwGetTime();
