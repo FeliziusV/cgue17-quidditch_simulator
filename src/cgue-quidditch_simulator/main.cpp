@@ -1,21 +1,22 @@
 #include <GL\glew.h>
+#include <GLFW\glfw3.h>
+#include "shader1.h"
 #include <iostream>
 #include <memory>
 #include <string>
 #include <sstream>
-#include <GLFW\glfw3.h>
-#include "scene\Cube.h"
 
-#include "shader1.h"
 
 using namespace cgue;
-
+#include "scene\Cube.h"
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\type_ptr.hpp>
 using namespace cgue::scene;
 
-
+//Prototypen
 void init(GLFWwindow* window);
 
-void update();
+void update(float time_delta);
 void draw();
 void cleanup();
 void glfw_on_error(int error_code, const char* desc);
@@ -87,6 +88,10 @@ int main(int argc, char** argv) {
 		exit(EXIT_FAILURE);
 	}
 
+	//glDebugMessageCallback(debug_callback_proc, nullptr);
+	//glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+
 /*
 #if _DEBUG
 	//Query the OpenGL function to register your callback function.
@@ -132,9 +137,9 @@ int main(int argc, char** argv) {
 
 		std::cout << "frametime: " << time * 1000 << "ms, " << 1.0 / time_delta << "FPS" << std::endl;
 
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		update();
+		update(time_delta);
 		draw();
 
 		glfwSwapBuffers(window);
@@ -171,20 +176,57 @@ static void APIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, GLenum
 
 
 void init(GLFWwindow* window) {
+
+	glEnable(GL_DEPTH_TEST);
+
 	glfwSetWindowTitle(window, "CGUE Project");
-
 	shader1 = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
-
 	cube = std::make_unique<Cube>(glm::mat4(1.0f), shader1.get());
 
+	//shader aktivieren weil wir die projections matrix setzen wollen
+	//projectionsmatrix bleibt erhalten
+	shader1->useShader();
+
+	//richtige Aspectratio verwenden
+	int width;
+	int height;
+	glfwGetWindowSize(window, &width, &height);
+
+	//projectionsmatrix aufbauen: 1:öffnungswinkel in grad, 2: aspectratio, 3: nearplane, 4: farplane,
+	//nearPlane/farplane = objekte im interwall [0.1  20.0] von der kamera entfernt werden gerendert
+	auto projection = glm::perspective(60.0f, width / (float)height, 0.1f, 20.0f);
+	//projection relativ zur kamera daher standart view matrix
+	//erstelle kamera 2 weg vom ursprung
+	auto view = glm::translate(glm::mat4(1), glm::vec3(0, 0, -2));
+	//multipliziere die beiden matritzen um nur eine matrix zum shader weiterzugeben
+	auto view_projection = projection * view;
+
+	//übergebe die matrix an den shader
+	auto view_projection_location = glGetUniformLocation(shader1->programHandle, "VP");
+	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
+
+	//die matrix wird nicht geändert weil keine kamerasteuerung,
+	//mit kamerasteuerung projection & view matrix in jedem frame neu ausrechnen
+	//oder die view matrix als eigene uniform dem shader geben und das im jeden frame neu ausrechnen
+
 }
-void update() { 
-	cube->update();
+void update(float time_delta) { 
+	cube->update(time_delta);
 }
 
 void draw() {
-	shader1->useShader();
 
+	//modelmatrix an shader übergeben
+
+	//modelmatrix von cube abspeichern
+	auto& model = cube->modelMatrix;
+	//die Location von der Modelmatrix im shader abspeichern
+	auto model_location = glGetUniformLocation(shader1->programHandle, "model");
+	//übergib matrix an den shader, 1: uniform location mit der man arbeiten will, 2: anzahl der Matrizen
+	//3: soll die matrix transponiert werden, 4: pointer auf die modelmatrix
+	glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
+	
+	shader1->useShader();
 	cube->draw();
 }
 

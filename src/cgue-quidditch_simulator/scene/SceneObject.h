@@ -12,7 +12,7 @@ namespace cgue{
 			virtual ~SceneObject();
 
 			virtual void draw() = 0;
-			virtual void update() = 0;
+			virtual void update(float time_delta) = 0;
 
 			glm::mat4 modelMatrix;
 	
