@@ -255,6 +255,7 @@ const float Cube::normals[24 * 3] = {
 
 };
 
+//for texturess
 const float Cube::uvs[24 * 2] = {
 	1.0f, 0.0f,
 	1.0f, 1.0f,

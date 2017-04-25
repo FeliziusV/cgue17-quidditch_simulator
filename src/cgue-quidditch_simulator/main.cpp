@@ -5,10 +5,12 @@
 #include <memory>
 #include <string>
 #include <sstream>
+#include <FreeImage\FreeImage.h>
 
 
 using namespace cgue;
 #include "scene\Cube.h"
+#include "scene\Texture.h"
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 using namespace cgue::scene;
@@ -24,6 +26,8 @@ void glfw_on_error(int error_code, const char* desc);
 
 std::unique_ptr<Shader> shader1;
 std::unique_ptr<Cube> cube;
+std::unique_ptr<Texture> texture;
+
 
 int main(int argc, char** argv) {
 
@@ -154,7 +158,7 @@ int main(int argc, char** argv) {
 	cleanup();
 	glfwTerminate();
 
-
+	 
 	return EXIT_SUCCESS;
 }
 
@@ -204,11 +208,16 @@ void init(GLFWwindow* window) {
 	//übergebe die matrix an den shader
 	auto view_projection_location = glGetUniformLocation(shader1->programHandle, "VP");
 	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
-
 	//die matrix wird nicht geändert weil keine kamerasteuerung,
 	//mit kamerasteuerung projection & view matrix in jedem frame neu ausrechnen
 	//oder die view matrix als eigene uniform dem shader geben und das im jeden frame neu ausrechnen
+	//*************************************************************
 
+	//initialize freeImage
+	FreeImage_Initialise(true);
+
+	//erstelle neue Textur
+	texture = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/magda.png");
 }
 void update(float time_delta) { 
 	cube->update(time_delta);
@@ -227,12 +236,20 @@ void draw() {
 	glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
 	
 	shader1->useShader();
+	texture->bind(0);
+	auto texture_location = glGetUniformLocation(shader1->programHandle, "color_texture");
+	//übergebe der Textur die nummer der Textureunit 1: location an dem die uniform gschrieben werden soll 
+	//2: der Wert der gesetzt werden soll, 0 weil auhc in bind function
+	glUniform1i(texture_location, 0);
+
+
 	cube->draw();
 }
 
 void cleanup() {
 	shader1.reset(nullptr);
 	cube.reset(nullptr);
+	texture.reset(nullptr);
 }
 
 /*
