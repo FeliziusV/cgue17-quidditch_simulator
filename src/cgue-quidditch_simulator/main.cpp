@@ -44,6 +44,8 @@ int main(int argc, char** argv) {
 	int width = 800;
 	int height = 600;
 
+	bool fullscreen = false;
+
 	//commandline attributes for window size
 	if (argc >= 3) {
 		std::cout << "Your are executing '" << argv[0] << "'" << std::endl;
@@ -56,21 +58,31 @@ int main(int argc, char** argv) {
 			std::cerr << "ERROR: Could not parse second command-line-argument as integer." << std::endl;
 			exit(EXIT_FAILURE);
 		}
-
+		if (argc >= 4) {
+			if ((std::stringstream(argv[3]) >> fullscreen).fail()) {
+				std::cerr << "ERROR Could not parse third command-line-argument as boolean." << std::endl;
+				system("PAUSE");
+				exit(EXIT_FAILURE);
+			}
+		}
 	}
 
 	//(2) set window hints
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
-#if _DEBUG
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-#endif
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+	GLFWmonitor * monitor = nullptr;
+	if (fullscreen) {
+		monitor = glfwGetPrimaryMonitor();
+		auto refresh_rate = 60;
+		glfwWindowHint(GLFW_REFRESH_RATE, refresh_rate);
+	}
+
 	//(3) open window
-	auto window = glfwCreateWindow(width, height, "Hello, CGUE!", nullptr, nullptr);
+	auto window = glfwCreateWindow(width, height, "Hello, CGUE!", monitor, nullptr);
 	if (!window) {
 		std::cerr << "ERROR: Could not open window" << std::endl;
 		glfwTerminate();
