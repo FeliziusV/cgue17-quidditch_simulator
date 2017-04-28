@@ -210,7 +210,7 @@ void init(GLFWwindow* window) {
 
 	//projectionsmatrix aufbauen: 1:öffnungswinkel in grad, 2: aspectratio, 3: nearplane, 4: farplane,
 	//nearPlane/farplane = objekte im interwall [0.1  20.0] von der kamera entfernt werden gerendert
-	auto projection = glm::perspective(60.0f, width / (float)height, 0.1f, 20.0f);
+	auto projection = glm::perspective(80.0f, width / (float)height, 0.1f, 20.0f);
 	//projection relativ zur kamera daher standart view matrix
 	//erstelle kamera 2 weg vom ursprung
 	auto view = glm::translate(glm::mat4(1), glm::vec3(0, 0, -2));
