@@ -31,6 +31,7 @@ void Game::init(GLFWwindow* window)
 		//exit(EXIT_FAILURE);
 	}
 
+
 	//cube 1
 	//******************************
 	shader = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
@@ -122,37 +123,79 @@ void Game::draw() {
 //source from https://www.libsdl.org/release/SDL-1.2.15/docs/html/guideinputkeyboard.html 
 void Game::processKeyInput(float time_delta) {
 
-	if (!quit) {
-		SDL_WaitEvent(&event);
-
+	while(!quit) {
+		SDL_PollEvent(&event);
 		switch (event.type) {
-		case SDLK_LEFT:
-			camera->move(glm::vec3(-0.05f, 0, 0));
-			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym) {
 
-		case SDLK_RIGHT:
-			camera->move(glm::vec3(0.05f, 0, 0));
-			break;
+			case SDLK_LEFT:
+				camera->move(glm::vec3(-5, 0, 0));
+				break;
 
-		case SDLK_UP:
-			camera->move(glm::vec3(0, 0, 0.5f));
-			break;
+			case SDLK_RIGHT:
+				camera->move(glm::vec3(5, 0, 0));
+				std::cerr << "move Right!" << std::endl;
+				system("PAUSE"); break;
 
-		case SDLK_DOWN:
-			camera->move(glm::vec3(0, 0, 0.5f));
-			break;
+			case SDLK_UP:
+				camera->move(glm::vec3(0, 0, 5));
+				break;
 
-		case SDLK_LSHIFT:
-			break;
+			case SDLK_DOWN:
+				camera->move(glm::vec3(0, 0, 5));
+				break;
 
-		case SDLK_SPACE:
+			case SDLK_LSHIFT:
+				break;
 
-			break;
+			case SDLK_SPACE:
 
-		case SDL_QUIT:
-			quit = true;
+				break;
+
+			case SDL_QUIT:
+				quit = true;
+				break;
+
+			default:
+				break;
+			}
+		case SDL_KEYUP:
+			switch (event.key.keysym.sym) {
+
+			case SDLK_LEFT:
+				camera->move(glm::vec3(0, 0, 0));
+				break;
+
+			case SDLK_RIGHT:
+				camera->move(glm::vec3(0, 0, 0));
+				break;
+
+			case SDLK_UP:
+				camera->move(glm::vec3(0, 0, 0));
+				break;
+
+			case SDLK_DOWN:
+				camera->move(glm::vec3(0, 0, 0));
+				break;
+
+			case SDLK_LSHIFT:
+				break;
+
+			case SDLK_SPACE:
+
+				break;
+
+			case SDL_QUIT:
+				quit = true;
+				break;
+
+			default:
+				break;
+			}
+		default:
 			break;
-		
 		}
+		
 	}
 }

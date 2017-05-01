@@ -11,7 +11,7 @@ Camera::~Camera() {
 }
 
 void Camera::update(float time_delta) {
-	Camera::move(time_delta * glm::vec3(0.5f), glm::vec3(0.0f));
+	//Camera::move(time_delta * glm::vec3(0.5f), glm::vec3(0.0f));
 }
 
 bool Camera::move(glm::vec3 translationVec, glm::vec3 speed) {
