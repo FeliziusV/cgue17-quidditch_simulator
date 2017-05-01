@@ -1,5 +1,4 @@
 #pragma once
-#include <GL\glew.h>
 #include "SceneObject.h"
 #include "..\shader1.h"
 
