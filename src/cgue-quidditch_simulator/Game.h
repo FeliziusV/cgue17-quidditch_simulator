@@ -29,7 +29,7 @@ public:
 	std::unique_ptr<cgue::Texture> texture1;
 
 	SDL_Event event;
-	int quit;
+	int quit = 0;
 	
 	int width;
 	int height;

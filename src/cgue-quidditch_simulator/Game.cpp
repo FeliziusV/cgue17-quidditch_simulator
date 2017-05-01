@@ -30,7 +30,6 @@ void Game::init(GLFWwindow* window)
 		system("PAUSE");
 		//exit(EXIT_FAILURE);
 	}
-	int quit = 0;
 
 	//cube 1
 	//******************************
@@ -38,12 +37,11 @@ void Game::init(GLFWwindow* window)
 	cube1 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
 	shader->useShader();
 
-
 	glfwGetWindowSize(this->window, &width, &height);
 
+	camera = std::make_unique<Camera>(glm::vec3(0, 0, -2));
 	auto projection = glm::perspective(80.0f, width / (float)height, 0.1f, 20.0f);
-	auto view = glm::translate(glm::mat4(1), glm::vec3(0, 0, -2));
-	auto view_projection = projection * view;
+	auto view_projection = projection * camera->view;
 
 	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
 	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
@@ -72,7 +70,7 @@ void Game::gameLoop() {
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		
+		//processKeyInput(time_delta);
 		update(time_delta);
 		draw();
 		glfwSwapBuffers(window);
@@ -91,12 +89,19 @@ void Game::gameLoop() {
 
 void Game::update(float time_delta) {
 	cube1->update(time_delta);
+	auto projection = glm::perspective(80.0f, width / (float)height, 0.1f, 20.0f);
+	camera->update(time_delta);
+	auto view_projection = projection * camera->view;
+
+	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
+	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
 }
 
 void Game::cleanUp() {
 	shader.reset(nullptr);
 	cube1.reset(nullptr);
 	texture1.reset(nullptr);
+	camera.reset(nullptr);
 
 }
 
@@ -122,23 +127,22 @@ void Game::processKeyInput(float time_delta) {
 
 		switch (event.type) {
 		case SDLK_LEFT:
-			
+			camera->move(glm::vec3(-0.05f, 0, 0));
 			break;
 
 		case SDLK_RIGHT:
-
+			camera->move(glm::vec3(0.05f, 0, 0));
 			break;
 
 		case SDLK_UP:
-
+			camera->move(glm::vec3(0, 0, 0.5f));
 			break;
 
 		case SDLK_DOWN:
-
+			camera->move(glm::vec3(0, 0, 0.5f));
 			break;
 
 		case SDLK_LSHIFT:
-
 			break;
 
 		case SDLK_SPACE:
