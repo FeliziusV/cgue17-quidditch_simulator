@@ -168,6 +168,9 @@
     <ClInclude Include="scene\Texture.h" />
     <ClInclude Include="shader1.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\chessboard.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

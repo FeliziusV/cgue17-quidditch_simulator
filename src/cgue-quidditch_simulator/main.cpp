@@ -12,18 +12,14 @@
 #include "scene\Texture.h"
 #include "shader1.h"
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 using namespace cgue;
 using namespace cgue::scene;
 
 //Prototypen
-void init(GLFWwindow* window);
-
-void update(float time_delta);
-void draw();
-void cleanup();
 void glfw_on_error(int error_code, const char* desc);
-
+void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
 std::unique_ptr<Game> game;
 std::unique_ptr<Shader> shader1;
@@ -101,6 +97,8 @@ int main(int argc, char** argv) {
 		exit(EXIT_FAILURE);
 	}
 
+	glfwSetKeyCallback(window, keyCallback);
+
 	//glDebugMessageCallback(debug_callback_proc, nullptr);
 	//glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
@@ -136,48 +134,108 @@ int main(int argc, char** argv) {
 	game = std::make_unique<Game>();
 	game->init(window);
 	game->gameLoop();
-	
-	/*
-	init(window);
 
-
-
-	glClearColor(0.35f, 0.36f, 0.43f, 0.3f);
-	glViewport(0, 0, width, height);
-
-	bool running = true;
-	auto time = glfwGetTime();
-
-	while (running && !glfwWindowShouldClose(window)) {
-		auto time_new = glfwGetTime();
-		auto time_delta = (float)(time_new - time);
-		time = time_new;
-
-		std::cout << "frametime: " << time * 1000 << "ms, " << 1.0 / time_delta << "FPS" << std::endl;
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		
-		update(time_delta);
-		draw();
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-			glfwSetWindowShouldClose(window, true);
-		}
-
-	}
-
-	cleanup();
-	glfwTerminate();
-	*/
 	return EXIT_SUCCESS;
 }
 
 void glfw_on_error(int error_code, const char* desc) {
 	std::cerr << "(GLFW) " << desc << std::endl;
+}
+
+void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+	switch (action) {
+	case GLFW_PRESS:
+		switch (key) {
+		case GLFW_KEY_LEFT:
+			break;
+
+		case GLFW_KEY_RIGHT:
+			break;
+
+		case GLFW_KEY_UP:
+			break;
+
+		case GLFW_KEY_DOWN:
+			break;
+
+		case GLFW_KEY_LEFT_SHIFT:
+			break;
+
+		case GLFW_KEY_SPACE:
+			break;
+
+		case GLFW_KEY_ESCAPE:
+			glfwSetWindowShouldClose(window, true);
+			break;
+
+		default:
+			break;
+		}
+	case GLFW_RELEASE:
+		switch (key) {
+		case GLFW_KEY_LEFT:
+			break;
+
+		case GLFW_KEY_RIGHT:
+			break;
+
+		case GLFW_KEY_UP:
+			break;
+
+		case GLFW_KEY_DOWN:
+			break;
+
+		case GLFW_KEY_LEFT_SHIFT:
+			break;
+
+		case GLFW_KEY_SPACE:
+			break;
+
+		case GLFW_KEY_ESCAPE:
+			glfwSetWindowShouldClose(window, true);
+			break;
+
+		default:
+			break;
+		}
+	case GLFW_REPEAT:
+
+		switch (key) {
+		case GLFW_KEY_LEFT:
+			game->camera->rotate(glm::rotate(1.0f * game->time_delta, glm::vec3(0, 1, 0)));
+
+			break;
+
+		case GLFW_KEY_RIGHT:
+			game->camera->rotate(glm::rotate(-1.0f * game->time_delta, glm::vec3(0, 1, 0)));
+			break;
+
+		case GLFW_KEY_UP:
+			game->camera->accelerate();
+			//game->camera->move(glm::rotate(-1.0f * game->time_delta, glm::vec3(1, 0, 0)));
+			break;
+
+		case GLFW_KEY_DOWN:
+			game->camera->decelerate();
+			//game->camera->move(glm::rotate(-1.0f * game->time_delta, glm::vec3(-1, 0, 0)));
+			break;
+
+		case GLFW_KEY_LEFT_SHIFT:
+			game->camera->rise(glm::translate(glm::mat4(), glm::vec3(0, 1.0f * game->time_delta, 0)));
+			break;
+
+		case GLFW_KEY_SPACE:
+			game->camera->rise(glm::translate(glm::mat4(), glm::vec3(0, -1.0f * game->time_delta, 0)));
+			break;
+
+		case GLFW_KEY_ESCAPE:
+			glfwSetWindowShouldClose(window, true);
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 /*
@@ -190,64 +248,6 @@ static void APIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, GLenum
 	std::string error = FormatDebugOutput(source, type, id, severity, message);
 	std::cout << error << std::endl;
 }
-*/
-
-/*
-
-void init(GLFWwindow* window) {
-
-	
-	glEnable(GL_DEPTH_TEST);
-
-	glfwSetWindowTitle(window, "CGUE Project");
-	shader1 = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
-	
-	cube = std::make_unique<Cube>(glm::mat4(1.0f), shader1.get());
-	
-	shader1->useShader();
-
-	int width;
-	int height;
-	glfwGetWindowSize(window, &width, &height);
-
-	
-	auto projection = glm::perspective(80.0f, width / (float)height, 0.1f, 20.0f);
-	auto view = glm::translate(glm::mat4(1), glm::vec3(0, 0, -2));
-	auto view_projection = projection * view;
-
-	auto view_projection_location = glGetUniformLocation(shader1->programHandle, "VP");
-	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
-
-	FreeImage_Initialise(true);
-
-	texture = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/magda.png");
-}
-void update(float time_delta) { 
-	cube->update(time_delta);
-}
-
-void draw() {
-
-
-	auto& model = cube->modelMatrix;
-	auto model_location = glGetUniformLocation(shader1->programHandle, "model");
-	glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
-	
-	shader1->useShader();
-	texture->bind(0);
-	auto texture_location = glGetUniformLocation(shader1->programHandle, "color_texture");
-	glUniform1i(texture_location, 0);
-
-
-	cube->draw();
-}
-
-void cleanup() {
-	shader1.reset(nullptr);
-	cube.reset(nullptr);
-	texture.reset(nullptr);
-}
-
 */
 
 

@@ -25,31 +25,26 @@ void Game::init(GLFWwindow* window)
 	glEnable(GL_DEPTH_TEST);
 	glfwSetWindowTitle(this->window, "CGUE Project");
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		std::cerr << "ERROR: Could not init SDL Video" << std::endl;
-		system("PAUSE");
-		//exit(EXIT_FAILURE);
-	}
-
 
 	//cube 1
 	//******************************
 	shader = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
 	cube1 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
+	cube1->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100, 0.05, 100));
 	shader->useShader();
-
 	glfwGetWindowSize(this->window, &width, &height);
 
-	camera = std::make_unique<Camera>(glm::vec3(0, 0, -2));
-	auto projection = glm::perspective(80.0f, width / (float)height, 0.1f, 20.0f);
-	auto view_projection = projection * camera->view;
+	glm::vec3 position = glm::vec3(0, -2, 0.001f);
+	glm::vec3 lookAt = glm::vec3(0, 0, 1);
+	camera = std::make_unique<Camera>(position, lookAt);
+	camera->project(width, height, 0.05f, 100.0f);
 
 	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
-	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
+	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(camera->view_projection));
 
 	FreeImage_Initialise(true);
 
-	texture1 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/magda.png");
+	texture1 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/chessboard.jpg");
 }
 
 
@@ -64,23 +59,19 @@ void Game::gameLoop() {
 
 	while (running && !glfwWindowShouldClose(window)) {
 		auto time_new = glfwGetTime();
-		auto time_delta = (float)(time_new - time);
+		time_delta = (float)(time_new - time);
 		time = time_new;
 
 		std::cout << "frameTime: " << time * 1000 << "ms, " << 1.0 / time_delta << "FPS" << std::endl;
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//processKeyInput(time_delta);
 		update(time_delta);
 		draw();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-			glfwSetWindowShouldClose(window, true);
-		}
-		
+	
 	}
 	
 	cleanUp();
@@ -89,13 +80,11 @@ void Game::gameLoop() {
 }
 
 void Game::update(float time_delta) {
-	cube1->update(time_delta);
-	auto projection = glm::perspective(80.0f, width / (float)height, 0.1f, 20.0f);
+	//->update(time_delta);
 	camera->update(time_delta);
-	auto view_projection = projection * camera->view;
 
 	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
-	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
+	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(camera->view_projection));
 }
 
 void Game::cleanUp() {
@@ -120,82 +109,3 @@ void Game::draw() {
 
 }
 
-//source from https://www.libsdl.org/release/SDL-1.2.15/docs/html/guideinputkeyboard.html 
-void Game::processKeyInput(float time_delta) {
-
-	while(!quit) {
-		SDL_PollEvent(&event);
-		switch (event.type) {
-		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym) {
-
-			case SDLK_LEFT:
-				camera->move(glm::vec3(-5, 0, 0));
-				break;
-
-			case SDLK_RIGHT:
-				camera->move(glm::vec3(5, 0, 0));
-				std::cerr << "move Right!" << std::endl;
-				system("PAUSE"); break;
-
-			case SDLK_UP:
-				camera->move(glm::vec3(0, 0, 5));
-				break;
-
-			case SDLK_DOWN:
-				camera->move(glm::vec3(0, 0, 5));
-				break;
-
-			case SDLK_LSHIFT:
-				break;
-
-			case SDLK_SPACE:
-
-				break;
-
-			case SDL_QUIT:
-				quit = true;
-				break;
-
-			default:
-				break;
-			}
-		case SDL_KEYUP:
-			switch (event.key.keysym.sym) {
-
-			case SDLK_LEFT:
-				camera->move(glm::vec3(0, 0, 0));
-				break;
-
-			case SDLK_RIGHT:
-				camera->move(glm::vec3(0, 0, 0));
-				break;
-
-			case SDLK_UP:
-				camera->move(glm::vec3(0, 0, 0));
-				break;
-
-			case SDLK_DOWN:
-				camera->move(glm::vec3(0, 0, 0));
-				break;
-
-			case SDLK_LSHIFT:
-				break;
-
-			case SDLK_SPACE:
-
-				break;
-
-			case SDL_QUIT:
-				quit = true;
-				break;
-
-			default:
-				break;
-			}
-		default:
-			break;
-		}
-		
-	}
-}

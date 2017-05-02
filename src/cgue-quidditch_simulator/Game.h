@@ -19,7 +19,6 @@ public:
 	void Game::cleanUp();
 	void Game::draw();
 
-	void Game::processKeyInput(float time_delta);
 
 	GLFWwindow* window;
 	std::unique_ptr<Shader> shader;
@@ -28,11 +27,9 @@ public:
 	std::unique_ptr<cgue::scene::Cube> cube1;
 	std::unique_ptr<cgue::Texture> texture1;
 
-	SDL_Event event;
-	int quit = 0;
-	
 	int width;
 	int height;
+	float time_delta;
 };
 
 
