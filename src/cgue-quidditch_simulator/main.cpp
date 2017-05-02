@@ -202,12 +202,12 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 
 		switch (key) {
 		case GLFW_KEY_LEFT:
-			game->camera->rotate(glm::rotate(1.0f * game->time_delta, glm::vec3(0, 1, 0)));
+			game->camera->rotate(-100.0f * game->time_delta);
 
 			break;
 
 		case GLFW_KEY_RIGHT:
-			game->camera->rotate(glm::rotate(-1.0f * game->time_delta, glm::vec3(0, 1, 0)));
+			game->camera->rotate(100.0f * game->time_delta);
 			break;
 
 		case GLFW_KEY_UP:
@@ -221,11 +221,11 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 			break;
 
 		case GLFW_KEY_LEFT_SHIFT:
-			game->camera->rise(glm::translate(glm::mat4(), glm::vec3(0, 1.0f * game->time_delta, 0)));
+			game->camera->rise(-100.0f * game->time_delta);
 			break;
 
 		case GLFW_KEY_SPACE:
-			game->camera->rise(glm::translate(glm::mat4(), glm::vec3(0, -1.0f * game->time_delta, 0)));
+			game->camera->rise(100.0f * game->time_delta);
 			break;
 
 		case GLFW_KEY_ESCAPE:

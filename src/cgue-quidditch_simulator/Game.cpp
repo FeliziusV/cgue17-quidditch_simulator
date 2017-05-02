@@ -25,26 +25,28 @@ void Game::init(GLFWwindow* window)
 	glEnable(GL_DEPTH_TEST);
 	glfwSetWindowTitle(this->window, "CGUE Project");
 
+	shader = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
 
 	//cube 1
 	//******************************
-	shader = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
 	cube1 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
 	cube1->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100, 0.05, 100));
+	//cube 2
+	//**********************************************
+	cube2 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
+	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(0, 2, 0));
+
 	shader->useShader();
 	glfwGetWindowSize(this->window, &width, &height);
 
-	glm::vec3 position = glm::vec3(0, -2, 0.001f);
-	glm::vec3 lookAt = glm::vec3(0, 0, 1);
-	camera = std::make_unique<Camera>(position, lookAt);
-	camera->project(width, height, 0.05f, 100.0f);
-
-	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
-	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(camera->view_projection));
+	glm::vec3 position = glm::vec3(0, 2.0f, 0);
+	camera = std::make_unique<Camera>(position);
+	projection = glm::perspective(45.0f, width / (float)height, 0.1f, 100.0f);
 
 	FreeImage_Initialise(true);
 
 	texture1 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/chessboard.jpg");
+	texture2 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/magda.png");
 }
 
 
@@ -81,31 +83,44 @@ void Game::gameLoop() {
 
 void Game::update(float time_delta) {
 	//->update(time_delta);
-	camera->update(time_delta);
 
-	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
-	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(camera->view_projection));
+	camera->update(time_delta);
 }
 
 void Game::cleanUp() {
 	shader.reset(nullptr);
 	cube1.reset(nullptr);
 	texture1.reset(nullptr);
+	cube2.reset(nullptr);
+	texture2.reset(nullptr);
 	camera.reset(nullptr);
 
 }
 
 void Game::draw() {
-	auto& model = cube1->modelMatrix;
-	auto model_location = glGetUniformLocation(shader->programHandle, "model");
-	glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
+	glm::mat4 view_projection = projection * camera->view;
+	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
+	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
 
+	auto& model1 = cube1->modelMatrix;
+	auto model_location1 = glGetUniformLocation(shader->programHandle, "model");
+	glUniformMatrix4fv(model_location1, 1, GL_FALSE, glm::value_ptr(model1));
 	shader->useShader();
 	texture1->bind(0);
-	auto texture_location = glGetUniformLocation(shader->programHandle, "color_texture");
-	glUniform1i(texture_location, 0);
-
+	auto texture_location1 = glGetUniformLocation(shader->programHandle, "color_texture");
+	glUniform1i(texture_location1, 0);
 	cube1->draw();
+
+	auto& model2 = cube2->modelMatrix;
+	auto model_location2 = glGetUniformLocation(shader->programHandle, "model");
+	glUniformMatrix4fv(model_location2, 1, GL_FALSE, glm::value_ptr(model2));
+	shader->useShader();
+	texture2->bind(1);
+	auto texture_location2 = glGetUniformLocation(shader->programHandle, "color_texture");
+	glUniform1i(texture_location2, 1);
+	cube2->draw();
+
+
 
 }
 

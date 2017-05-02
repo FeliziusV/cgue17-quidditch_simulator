@@ -27,9 +27,13 @@ public:
 	std::unique_ptr<cgue::scene::Cube> cube1;
 	std::unique_ptr<cgue::Texture> texture1;
 
+	std::unique_ptr<cgue::scene::Cube> cube2;
+	std::unique_ptr<cgue::Texture> texture2;
+
 	int width;
 	int height;
 	float time_delta;
+	glm::mat4 projection;
 };
 
 
