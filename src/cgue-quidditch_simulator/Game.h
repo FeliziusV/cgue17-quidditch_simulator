@@ -30,6 +30,10 @@ public:
 	std::unique_ptr<cgue::scene::Cube> cube2;
 	std::unique_ptr<cgue::Texture> texture2;
 
+	std::unique_ptr<cgue::scene::Cube> cube3;
+	glm::vec3 cube3loc;
+	std::unique_ptr<cgue::Texture> texture3;
+
 	int width;
 	int height;
 	float time_delta;

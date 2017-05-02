@@ -3,14 +3,8 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm\glm.hpp>
+#include <iostream>
 
-
-enum Camera_Movement {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT
-};
 
 Camera::Camera(glm::vec3 position) : FRONT(glm::vec3(0.0f, 0.0f, -1.0f)) {
 	this->position = position;
@@ -18,6 +12,12 @@ Camera::Camera(glm::vec3 position) : FRONT(glm::vec3(0.0f, 0.0f, -1.0f)) {
 	this->yaw = -90.0f;
 	this->pitch = 0.0f;
 	
+	this->space = false;
+	this->shift = false;
+	this->up = false;
+	this->down = false;
+	this->left = false;
+	this->right = false;
 }
 
 Camera::~Camera() {
@@ -25,12 +25,9 @@ Camera::~Camera() {
 }
 
 void Camera::update(float time_delta) {
-	/*this->time_delta = time_delta;
-	view = view * glm::translate(glm::mat4(), speed * time_delta);
-
-	view_projection = projection * view;
-	*/
+	
 	this->position += FRONT * (speed.z * time_delta);
+	doMovement(time_delta);
 	glm::vec3 front;
 	front.x = cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
 	front.y = sin(glm::radians(this->pitch));
@@ -46,15 +43,37 @@ void Camera::calcViewMatrix() {
 	this->view = glm::lookAt(this->position, this->position + this->FRONT, this->UP);
 }
 
-bool Camera::rise(float yoffset) {
-	this->pitch += yoffset;
-	return true;
+void Camera::doMovement(float time_delta) {
+	if (this->space) {
+		if (pitch < 89.0f) {
+			this->pitch += 1.0f;
+		}
+	}
+	if (this->shift) {
+		if (pitch > -89.0f) {
+			this->pitch += -1.0f;
+		}
+	}
+	if (this->up) {
+		if (speed.z <= 10.0f) {
+			speed.z += 0.1f;
+		}
+	}
+	if (this->down) {
+		if (speed.z > 0.1f) {
+			speed.z += -0.1f;
+		}
+	}
+	if (this->left) {
+		this->yaw += -1;
+
+	}
+	if (this->right) {
+		this->yaw += 1;
+	}
+
 }
 
-bool Camera::rotate(float xoffset) {
-	this->yaw += xoffset;
-	return true;
-}
 
 bool Camera::accelerate() {
 	if (speed.z <= 5.0f) {
@@ -72,9 +91,4 @@ bool Camera::decelerate() {
 	return false;
 }
 
-void Camera::project(int width, int height, float nearPlane, float farPlane) {
-	//view = glm::lookAt(position, lookAt, glm::vec3(0, 1, 0)); //last parameter = upVector, for looking upside down (0, -1, 0)
-	projection = glm::perspective(60.0f, width / (float)height, nearPlane, farPlane);
-	//view_projection = projection * view;
 
-}

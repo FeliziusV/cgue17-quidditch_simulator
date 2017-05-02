@@ -34,7 +34,13 @@ void Game::init(GLFWwindow* window)
 	//cube 2
 	//**********************************************
 	cube2 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
-	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(0, 2, 0));
+	cube2->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4, 4, 0.1));
+	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(4, 2, 0));
+	//cube 3
+	cube3 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
+	cube3->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1, 0.1, 4));
+	cube3loc = glm::vec3(0.0f);
+
 
 	shader->useShader();
 	glfwGetWindowSize(this->window, &width, &height);
@@ -46,7 +52,8 @@ void Game::init(GLFWwindow* window)
 	FreeImage_Initialise(true);
 
 	texture1 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/chessboard.jpg");
-	texture2 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/magda.png");
+	texture2 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/ring.png");
+	texture3 = std::make_unique<Texture>("cgue-quidditch_simulator/Resources/player.png");
 }
 
 
@@ -82,9 +89,10 @@ void Game::gameLoop() {
 }
 
 void Game::update(float time_delta) {
-	//->update(time_delta);
 
 	camera->update(time_delta);
+	//cube3loc = camera->position - cube3loc;
+	//cube3->modelMatrix = glm::translate(cube3->modelMatrix, camera->position);
 }
 
 void Game::cleanUp() {
@@ -93,6 +101,8 @@ void Game::cleanUp() {
 	texture1.reset(nullptr);
 	cube2.reset(nullptr);
 	texture2.reset(nullptr);
+	cube3.reset(nullptr);
+	texture3.reset(nullptr);
 	camera.reset(nullptr);
 
 }
@@ -119,6 +129,15 @@ void Game::draw() {
 	auto texture_location2 = glGetUniformLocation(shader->programHandle, "color_texture");
 	glUniform1i(texture_location2, 1);
 	cube2->draw();
+
+	auto& model3 = cube3->modelMatrix;
+	auto model_location3 = glGetUniformLocation(shader->programHandle, "model");
+	glUniformMatrix4fv(model_location3, 1, GL_FALSE, glm::value_ptr(model3));
+	shader->useShader();
+	texture3->bind(2);
+	auto texture_location3 = glGetUniformLocation(shader->programHandle, "color_texture");
+	glUniform1i(texture_location3, 1);
+	cube3->draw();
 
 
 

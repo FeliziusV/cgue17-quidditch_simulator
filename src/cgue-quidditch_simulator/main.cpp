@@ -11,6 +11,7 @@
 #include "scene\Cube.h"
 #include "scene\Texture.h"
 #include "shader1.h"
+#include "scene\Camera.h"
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
@@ -20,6 +21,7 @@ using namespace cgue::scene;
 //Prototypen
 void glfw_on_error(int error_code, const char* desc);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+bool keys[1024] = {0};
 
 std::unique_ptr<Game> game;
 std::unique_ptr<Shader> shader1;
@@ -142,30 +144,82 @@ void glfw_on_error(int error_code, const char* desc) {
 	std::cerr << "(GLFW) " << desc << std::endl;
 }
 
+
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+
+
+	if (action == GLFW_PRESS){
+		if (key == GLFW_KEY_LEFT) {
+			game->camera->left = true;
+		}
+		if (key == GLFW_KEY_RIGHT) {
+			game->camera->right = true;
+		}
+		if (key == GLFW_KEY_UP) {
+			game->camera->up = true;
+		}
+		if (key == GLFW_KEY_DOWN) {
+			game->camera->down = true;
+		}
+		if (key == GLFW_KEY_LEFT_SHIFT) {
+			game->camera->shift = true;
+		}
+		if (key == GLFW_KEY_SPACE) {
+			game->camera->space = true;
+		}
+	}
+	if (action == GLFW_RELEASE) {
+		if (key == GLFW_KEY_LEFT) {
+			game->camera->left = false;
+		}
+		if (key == GLFW_KEY_RIGHT) {
+			game->camera->right = false;
+		}
+		if (key == GLFW_KEY_UP) {
+			game->camera->up = false;
+		}
+		if (key == GLFW_KEY_DOWN) {
+			game->camera->down = false;
+		}
+		if (key == GLFW_KEY_LEFT_SHIFT) {
+			game->camera->shift = false;
+		}
+		if (key == GLFW_KEY_SPACE) {
+			game->camera->space = false;
+		}
+	}
+	/*
 	switch (action) {
 	case GLFW_PRESS:
 		switch (key) {
 		case GLFW_KEY_LEFT:
+			game->camera->inputPress("LEFT");
 			break;
 
 		case GLFW_KEY_RIGHT:
+			game->camera->inputPress("RIGHT");
 			break;
 
 		case GLFW_KEY_UP:
+			game->camera->inputPress("UP");
 			break;
 
 		case GLFW_KEY_DOWN:
+			game->camera->inputPress("DOWN");
 			break;
 
 		case GLFW_KEY_LEFT_SHIFT:
+			keys[key] = true;
+			game->camera->inputPress("SHIFT");
 			break;
 
 		case GLFW_KEY_SPACE:
-			break;
-
-		case GLFW_KEY_ESCAPE:
-			glfwSetWindowShouldClose(window, true);
+			keys[key] = true;
+			game->camera->inputPress("SPACE");
 			break;
 
 		default:
@@ -174,30 +228,33 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 	case GLFW_RELEASE:
 		switch (key) {
 		case GLFW_KEY_LEFT:
+			game->camera->inputRelease("LEFT");
 			break;
 
 		case GLFW_KEY_RIGHT:
+			game->camera->inputRelease("RIGHT");
 			break;
 
 		case GLFW_KEY_UP:
+			game->camera->inputRelease("UP");
 			break;
 
 		case GLFW_KEY_DOWN:
+			game->camera->inputRelease("DOWN");
 			break;
 
 		case GLFW_KEY_LEFT_SHIFT:
+			game->camera->inputRelease("SHIFT");
 			break;
 
 		case GLFW_KEY_SPACE:
-			break;
-
-		case GLFW_KEY_ESCAPE:
-			glfwSetWindowShouldClose(window, true);
+			game->camera->inputRelease("SPACE");
 			break;
 
 		default:
 			break;
 		}
+	
 	case GLFW_REPEAT:
 
 		switch (key) {
@@ -212,12 +269,10 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 
 		case GLFW_KEY_UP:
 			game->camera->accelerate();
-			//game->camera->move(glm::rotate(-1.0f * game->time_delta, glm::vec3(1, 0, 0)));
 			break;
 
 		case GLFW_KEY_DOWN:
 			game->camera->decelerate();
-			//game->camera->move(glm::rotate(-1.0f * game->time_delta, glm::vec3(-1, 0, 0)));
 			break;
 
 		case GLFW_KEY_LEFT_SHIFT:
@@ -235,8 +290,12 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 		default:
 			break;
 		}
+
 	}
+	*/
+
 }
+
 
 /*
 static void APIENTRY DebugCallbackAMD(GLuint id, GLenum category, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam) {

@@ -61,5 +61,8 @@
     <Image Include="Resources\chessboard.jpg">
       <Filter>Ressourcendateien</Filter>
     </Image>
+    <Image Include="Resources\player.png">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
   </ItemGroup>
 </Project>
