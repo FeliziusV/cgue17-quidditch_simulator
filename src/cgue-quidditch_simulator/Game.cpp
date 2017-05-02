@@ -28,7 +28,7 @@ void Game::init(GLFWwindow* window)
 	shader = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
 
 	//cube 1
-	//******************************
+	//*********************************************
 	cube1 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
 	cube1->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100, 0.05, 100));
 	//cube 2
@@ -37,9 +37,13 @@ void Game::init(GLFWwindow* window)
 	cube2->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4, 4, 0.1));
 	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(4, 2, 0));
 	//cube 3
+	//**********************************************
 	cube3 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
-	cube3->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1, 0.1, 4));
-	cube3loc = glm::vec3(0.0f);
+	auto cube3model = cube3->modelMatrix;
+	cube3->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(3, 0.1, 6));
+	cube3->modelMatrix = glm::translate(cube3->modelMatrix, glm::vec3(0, 6.0f, -0.8f));
+	cube3->modelMatrix = glm::rotate(cube3->modelMatrix, glm::radians(-90.0f), glm::vec3(0, 1, 0));
+	cube3loc = glm::vec3(0, 6.0f, -0.8f);
 
 
 	shader->useShader();
@@ -91,7 +95,7 @@ void Game::gameLoop() {
 void Game::update(float time_delta) {
 
 	camera->update(time_delta);
-	//cube3loc = camera->position - cube3loc;
+	//cube3loc = cube3loc - camera->position;
 	//cube3->modelMatrix = glm::translate(cube3->modelMatrix, camera->position);
 }
 
@@ -112,6 +116,8 @@ void Game::draw() {
 	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
 	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
 
+	//cube 1
+	//**********************************************
 	auto& model1 = cube1->modelMatrix;
 	auto model_location1 = glGetUniformLocation(shader->programHandle, "model");
 	glUniformMatrix4fv(model_location1, 1, GL_FALSE, glm::value_ptr(model1));
@@ -120,7 +126,8 @@ void Game::draw() {
 	auto texture_location1 = glGetUniformLocation(shader->programHandle, "color_texture");
 	glUniform1i(texture_location1, 0);
 	cube1->draw();
-
+	//cube 2
+	//**********************************************
 	auto& model2 = cube2->modelMatrix;
 	auto model_location2 = glGetUniformLocation(shader->programHandle, "model");
 	glUniformMatrix4fv(model_location2, 1, GL_FALSE, glm::value_ptr(model2));
@@ -129,14 +136,15 @@ void Game::draw() {
 	auto texture_location2 = glGetUniformLocation(shader->programHandle, "color_texture");
 	glUniform1i(texture_location2, 1);
 	cube2->draw();
-
+	//cube 3
+	//**********************************************
 	auto& model3 = cube3->modelMatrix;
 	auto model_location3 = glGetUniformLocation(shader->programHandle, "model");
 	glUniformMatrix4fv(model_location3, 1, GL_FALSE, glm::value_ptr(model3));
 	shader->useShader();
 	texture3->bind(2);
 	auto texture_location3 = glGetUniformLocation(shader->programHandle, "color_texture");
-	glUniform1i(texture_location3, 1);
+	glUniform1i(texture_location3, 2);
 	cube3->draw();
 
 
