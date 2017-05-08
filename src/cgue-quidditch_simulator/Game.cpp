@@ -30,12 +30,12 @@ void Game::init(GLFWwindow* window)
 	//cube 1
 	//*********************************************
 	cube1 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
-	cube1->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100, 0.05, 100));
+	cube1->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(300, 0.05, 300));
 	//cube 2
 	//**********************************************
 	cube2 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
 	cube2->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4, 4, 0.1));
-	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(4, 2, 0));
+	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(0, 2, -200));
 	//cube 3
 	//**********************************************
 	cube3 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
@@ -51,7 +51,7 @@ void Game::init(GLFWwindow* window)
 
 	glm::vec3 position = glm::vec3(0, 2.0f, 0);
 	camera = std::make_unique<Camera>(position);
-	projection = glm::perspective(45.0f, width / (float)height, 0.1f, 100.0f);
+	projection = glm::perspective(45.0f, width / (float)height, 0.1f, 200.0f);
 
 	FreeImage_Initialise(true);
 
@@ -95,6 +95,7 @@ void Game::gameLoop() {
 void Game::update(float time_delta) {
 
 	camera->update(time_delta);
+	cube2->update(time_delta);
 	//cube3loc = cube3loc - camera->position;
 	//cube3->modelMatrix = glm::translate(cube3->modelMatrix, camera->position);
 }

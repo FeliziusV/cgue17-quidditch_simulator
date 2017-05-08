@@ -28,6 +28,7 @@ namespace cgue {
 			static const unsigned int new_indices[CUBE_INDEX_COUNT];
 			static const float new_positions[CUBE_VERTEX_COUNT * 9];
 			static const float uvs[CUBE_VERTEX_COUNT * 6];
+			float counter = 0.0f;
 
 		};
 	}

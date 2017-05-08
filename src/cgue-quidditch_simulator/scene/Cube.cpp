@@ -1,6 +1,7 @@
 #include "Cube.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 
 using namespace cgue;
@@ -101,8 +102,19 @@ Cube::~Cube() {
 }
 
 void Cube::update(float time_delta) {
-	modelMatrix = glm::rotate(modelMatrix, glm::radians(90.0f) * time_delta, glm::vec3(0, 1, 0));
-
+	if (counter >= 0.0f) {
+		modelMatrix = glm::translate(modelMatrix, glm::vec3(2.0f * time_delta, 0.0f, 0.0f ));
+		counter = counter + 1.0f * time_delta;
+		
+	}
+	if (counter < 0.0f) {
+		modelMatrix = glm::translate(modelMatrix, glm::vec3(-2.0f * time_delta, 0.0f, 0.0f ));
+		counter = counter + 1.0f * time_delta;
+	}
+	
+	if (counter >= 1.0f) {
+		counter = -1.0f;
+	}
 
 }
 
