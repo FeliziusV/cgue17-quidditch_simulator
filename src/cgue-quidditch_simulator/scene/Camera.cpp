@@ -46,16 +46,22 @@ void Camera::calcViewMatrix() {
 void Camera::doMovement(float time_delta) {
 	if (this->space) {
 		if (pitch < 89.0f) {
-			this->pitch += 1.0f;
+			this->pitch += 100.0f * time_delta;
 		}
 	}
 	if (this->shift) {
 		if (pitch > -89.0f) {
-			this->pitch += -1.0f;
+			this->pitch += -100.0f * time_delta;
 		}
 	}
+	if (this->left) {
+		this->yaw += -100.0f * time_delta;
+	}
+	if (this->right) {
+		this->yaw += 100.0f  * time_delta;
+	}
 	if (this->up) {
-		if (speed.z <= 10.0f) {
+		if (speed.z <= 100.0f) {
 			speed.z += 0.1f;
 		}
 	}
@@ -64,14 +70,6 @@ void Camera::doMovement(float time_delta) {
 			speed.z += -0.1f;
 		}
 	}
-	if (this->left) {
-		this->yaw += -1;
-
-	}
-	if (this->right) {
-		this->yaw += 1;
-	}
-
 }
 
 
