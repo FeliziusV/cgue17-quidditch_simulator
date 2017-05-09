@@ -137,6 +137,8 @@ int main(int argc, char** argv) {
 	game->init(window);
 	game->gameLoop();
 
+	game.reset(nullptr);
+
 	return EXIT_SUCCESS;
 }
 

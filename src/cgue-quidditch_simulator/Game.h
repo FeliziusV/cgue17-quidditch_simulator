@@ -6,12 +6,14 @@
 #include "scene\Cube.h"
 #include "scene\Texture.h"
 #include "scene\Camera.h"
+#include "scene\PointLight.h"
 
 using namespace cgue;
 
 class Game {
 public:
 	Game();
+	~Game();
 
 	void Game::init(GLFWwindow* window);
 	void Game::gameLoop();
@@ -33,6 +35,8 @@ public:
 	std::unique_ptr<cgue::scene::Cube> cube3;
 	glm::vec3 cube3loc;
 	std::unique_ptr<cgue::Texture> texture3;
+
+	std::unique_ptr<PointLight> pointLight;
 
 	int width;
 	int height;

@@ -18,6 +18,10 @@ Game::Game() {
 
 }
 
+Game::~Game() {
+
+}
+
 void Game::init(GLFWwindow* window)
 {
 
@@ -44,6 +48,10 @@ void Game::init(GLFWwindow* window)
 	cube3->modelMatrix = glm::translate(cube3->modelMatrix, glm::vec3(0, 6.0f, -0.8f));
 	cube3->modelMatrix = glm::rotate(cube3->modelMatrix, glm::radians(-90.0f), glm::vec3(0, 1, 0));
 	cube3loc = glm::vec3(0, 6.0f, -0.8f);
+
+	//pointLight
+	//***********************************************
+	pointLight = std::make_unique<PointLight>(glm::vec3(0.0f, 4.0f, 0.0f));
 
 
 	shader->useShader();
@@ -109,6 +117,7 @@ void Game::cleanUp() {
 	cube3.reset(nullptr);
 	texture3.reset(nullptr);
 	camera.reset(nullptr);
+	pointLight.reset(nullptr);
 
 }
 
