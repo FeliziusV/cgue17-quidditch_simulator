@@ -10,3 +10,7 @@ PointLight::~PointLight() {
 
 
 }
+
+glm::vec3 PointLight::getPosition() {
+	return this->pos;
+}

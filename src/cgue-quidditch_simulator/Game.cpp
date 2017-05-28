@@ -38,20 +38,20 @@ void Game::init(GLFWwindow* window)
 	//cube 2
 	//**********************************************
 	cube2 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
-	cube2->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4, 4, 0.1));
-	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(0, 2, -200));
+	cube2->modelMatrix = glm::translate(cube2->modelMatrix, glm::vec3(0, 4, -6));
+	//cube2->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4, 4, 0.1));
 	//cube 3
 	//**********************************************
 	cube3 = std::make_unique<Cube>(glm::mat4(1.0f), shader.get());
 	auto cube3model = cube3->modelMatrix;
-	cube3->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(3, 0.1, 6));
 	cube3->modelMatrix = glm::translate(cube3->modelMatrix, glm::vec3(0, 6.0f, -0.8f));
+	cube3->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(3, 0.1, 6));
 	cube3->modelMatrix = glm::rotate(cube3->modelMatrix, glm::radians(-90.0f), glm::vec3(0, 1, 0));
 	cube3loc = glm::vec3(0, 6.0f, -0.8f);
 
 	//pointLight
 	//***********************************************
-	pointLight = std::make_unique<PointLight>(glm::vec3(0.0f, 4.0f, 0.0f));
+	pointLight = std::make_unique<PointLight>(glm::vec3(660.0f, 6.0f, -5.0f));
 
 
 	shader->useShader();
@@ -122,9 +122,16 @@ void Game::cleanUp() {
 }
 
 void Game::draw() {
+	//load VP Matrix to Shader
 	glm::mat4 view_projection = projection * camera->view;
 	auto view_projection_location = glGetUniformLocation(shader->programHandle, "VP");
 	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
+
+	//load Light Location to Shader
+	glm::vec3 pointLightPosition = pointLight->getPosition();
+	auto pointLightLocation = glGetUniformLocation(shader->programHandle, "pointLightPos");
+	glUniformMatrix4fv(pointLightLocation, 1, GL_FALSE, glm::value_ptr(pointLightPosition));
+
 
 	//cube 1
 	//**********************************************

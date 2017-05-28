@@ -7,14 +7,16 @@ in vec2 uv;
 
 out vec3 fragNormal;
 out vec2 fragmentUV;
+out vec3 lightDir;
 
 
 uniform mat4 model;
 uniform mat4 VP;
-
+uniform vec3 pointLightPos;
 
 void main() {
 	fragmentUV = uv;
 	fragNormal = (model * vec4(normal, 0)).xyz;
 	gl_Position = VP * model * vec4(position, 1);
+	lightDir = normalize(position - pointLightPos);
 }
