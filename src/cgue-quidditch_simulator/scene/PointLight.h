@@ -13,8 +13,10 @@ public:
 
 	glm::vec3 getPosition();
 
-	float ambient;
+	void move(float time_delta);
 
+	float ambient;
+	float counter = 0.0f;
 
 
 };
