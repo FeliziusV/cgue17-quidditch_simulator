@@ -18,5 +18,5 @@ void main() {
 	fragmentUV = uv;
 	fragNormal = (model * vec4(normal, 0)).xyz;
 	gl_Position = VP * model * vec4(position, 1);
-	lightDir = vec3(normalize(gl_Position - vec4(pointLightPos, 1)));
+	lightDir = vec3(normalize((model * vec4(position, 1)) - vec4(pointLightPos, 1)));
 }

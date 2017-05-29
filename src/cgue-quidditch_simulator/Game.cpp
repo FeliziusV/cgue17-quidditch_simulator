@@ -104,7 +104,7 @@ void Game::update(float time_delta) {
 
 	camera->update(time_delta);
 	cube2->update(time_delta);
-	pointLight->move(time_delta);
+	//pointLight->move(time_delta);
 	//std::cout << "pointLight Pos: " << pointLight->pos.x << std::endl;
 	//cube3loc = cube3loc - camera->position;
 	//cube3->modelMatrix = glm::translate(cube3->modelMatrix, camera->position);
