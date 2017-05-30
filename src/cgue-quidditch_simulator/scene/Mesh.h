@@ -4,9 +4,22 @@
 #include "glm\vec2.hpp"
 #include "glm\vec3.hpp"
 #include "../shader.h"
+
 using namespace std;
 using namespace cgue;
 class Mesh {
+
+	struct Vertex {
+		glm::vec3 Position;
+		glm::vec3 Normal;
+		glm::vec2 TexCoords;
+
+	};
+
+	struct Texture {
+		GLuint id;
+		string type;
+	};
 
 public:
 	vector<Vertex> vertices;
