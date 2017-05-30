@@ -103,12 +103,12 @@ Cube::~Cube() {
 
 void Cube::update(float time_delta) {
 	if (counter >= 0.0f) {
-		modelMatrix = glm::translate(modelMatrix, glm::vec3(2.0f * time_delta, 0.0f, 0.0f ));
+		modelMatrix = glm::translate(modelMatrix, glm::vec3(3.0f * time_delta, 0.0f, 0.0f ));
 		counter = counter + 1.0f * time_delta;
 		
 	}
 	if (counter < 0.0f) {
-		modelMatrix = glm::translate(modelMatrix, glm::vec3(-2.0f * time_delta, 0.0f, 0.0f ));
+		modelMatrix = glm::translate(modelMatrix, glm::vec3(-3.0f * time_delta, 0.0f, 0.0f ));
 		counter = counter + 1.0f * time_delta;
 	}
 	

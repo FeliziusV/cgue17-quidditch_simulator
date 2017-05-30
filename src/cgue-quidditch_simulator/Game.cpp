@@ -137,6 +137,10 @@ void Game::draw() {
 	//glUniformMatrix4fv(pointLightLocation, 1, GL_FALSE, glm::value_ptr(pointLightPosition));
 	glUniform3f(pointLightLocation, pointLightPosition.x, pointLightPosition.y, pointLightPosition.z);
 
+	//load Camera Location to Shader
+	auto cameraLocation = glGetUniformLocation(shader->programHandle, "cameraPos");
+	glUniform3f(cameraLocation, camera->position.x, camera->position.y, camera->position.z);
+
 	//cube 1
 	//**********************************************
 	auto& model1 = cube1->modelMatrix;
