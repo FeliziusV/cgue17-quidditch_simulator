@@ -10,7 +10,7 @@
 #include "Game.h"
 #include "scene\Cube.h"
 #include "scene\Texture.h"
-#include "shader1.h"
+#include "shader.h"
 #include "scene\Camera.h"
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>

@@ -156,19 +156,21 @@
     <ClCompile Include="scene\Camera.cpp" />
     <ClCompile Include="scene\Cube.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="scene\Mesh.cpp" />
     <ClCompile Include="scene\PointLight.cpp" />
     <ClCompile Include="scene\SceneObject.cpp" />
     <ClCompile Include="scene\Texture.cpp" />
-    <ClCompile Include="shader1.cpp" />
+    <ClCompile Include="shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="scene\Camera.h" />
     <ClInclude Include="scene\Cube.h" />
+    <ClInclude Include="scene\Mesh.h" />
     <ClInclude Include="scene\PointLight.h" />
     <ClInclude Include="scene\SceneObject.h" />
     <ClInclude Include="scene\Texture.h" />
-    <ClInclude Include="shader1.h" />
+    <ClInclude Include="shader.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\chessboard.jpg" />

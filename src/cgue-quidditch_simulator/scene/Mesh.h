@@ -1,9 +1,11 @@
 #pragma once
+#include <GL\glew.h>
 #include <vector>
 #include "glm\vec2.hpp"
 #include "glm\vec3.hpp"
-using namespace ::std;
-
+#include "../shader.h"
+using namespace std;
+using namespace cgue;
 class Mesh {
 
 public:
@@ -11,7 +13,7 @@ public:
 	vector<GLuint> indices;
 	vector<Texture> textures;
 
-	mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures);
+	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures);
 	void draw(Shader shader);
 
 private:

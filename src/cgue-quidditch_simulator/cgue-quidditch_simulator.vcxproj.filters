@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="shader1.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="scene\SceneObject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -39,11 +36,14 @@
     <ClCompile Include="scene\PointLight.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="scene\Mesh.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shader1.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="scene\SceneObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -60,6 +60,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="scene\PointLight.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\Mesh.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

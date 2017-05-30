@@ -2,7 +2,7 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include <SDL2\SDL.h>
-#include "shader1.h"
+#include "shader.h"
 #include "scene\Cube.h"
 #include "scene\Texture.h"
 #include "scene\Camera.h"
