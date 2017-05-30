@@ -23,6 +23,13 @@ void glfw_on_error(int error_code, const char* desc);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 bool keys[1024] = {0};
 
+std::string FormatDebugOutput(GLenum source, GLenum type, GLuint id, 
+	GLenum severity, const char* msg);
+void APIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, 
+	GLenum severity, GLsizei length, const GLchar* message, const GLvoid* userParam);
+void APIENTRY DebugCallbackAMD(GLuint id, GLenum category, 
+	GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam);
+
 std::unique_ptr<Game> game;
 std::unique_ptr<Shader> shader1;
 std::unique_ptr<Cube> cube;
@@ -102,15 +109,15 @@ int main(int argc, char** argv) {
 	glfwSetKeyCallback(window, keyCallback);
 
 	//glDebugMessageCallback(debug_callback_proc, nullptr);
-	//glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
 
-/*
+
 #if _DEBUG
 	//Query the OpenGL function to register your callback function.
-	PFNGLDEBUGMESSAGECALLBACKPROC _glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKPROC)wglGetProcAddress("glDebugMessageCallback");
-	PFNGLDEBUGMESSAGECALLBACKARBPROC _glDebugMessageCallbackARB = (PFNGLDEBUGMESSAGECALLBACKARBPROC)wglGetProcAddress("glDebugMessageCallbackARB");
-	PFNGLDEBUGMESSAGECALLBACKAMDPROC _glDebugMessageCallbackAMD = (PFNGLDEBUGMESSAGECALLBACKAMDPROC)wglGetProcAddress("glDebugMessageCallbackAMD");
+	PFNGLDEBUGMESSAGECALLBACKPROC _glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKPROC)glfwGetProcAddress("glDebugMessageCallback");
+	PFNGLDEBUGMESSAGECALLBACKARBPROC _glDebugMessageCallbackARB = (PFNGLDEBUGMESSAGECALLBACKARBPROC)glfwGetProcAddress("glDebugMessageCallbackARB");
+	PFNGLDEBUGMESSAGECALLBACKAMDPROC _glDebugMessageCallbackAMD = (PFNGLDEBUGMESSAGECALLBACKAMDPROC)glfwGetProcAddress("glDebugMessageCallbackAMD");
 
 	// Register your callback function.
 	if (_glDebugMessageCallback != NULL) {
@@ -130,7 +137,7 @@ int main(int argc, char** argv) {
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	}
 #endif
-*/
+
 
 
 	game = std::make_unique<Game>();
@@ -299,7 +306,7 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 }
 
 
-/*
+
 static void APIENTRY DebugCallbackAMD(GLuint id, GLenum category, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam) {
 	std::string error = FormatDebugOutput(category, category, id, severity, message);
 	std::cout << error << std::endl;
@@ -309,10 +316,10 @@ static void APIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, GLenum
 	std::string error = FormatDebugOutput(source, type, id, severity, message);
 	std::cout << error << std::endl;
 }
-*/
 
 
-/*
+
+
 static std::string FormatDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, const char* msg) {
 	std::stringstream stringStream;
 	std::string sourceString;
@@ -420,4 +427,3 @@ static std::string FormatDebugOutput(GLenum source, GLenum type, GLuint id, GLen
 	return stringStream.str();
 }
 
-*/
