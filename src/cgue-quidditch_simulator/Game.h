@@ -25,6 +25,7 @@ public:
 
 	GLFWwindow* window;
 	std::unique_ptr<Shader> shader;
+	std::unique_ptr<Shader> modelShader;
 	std::unique_ptr<Camera> camera;
 
 	std::unique_ptr<cgue::scene::Cube> cube1;

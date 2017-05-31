@@ -1,27 +1,12 @@
-#version 330
+#version 410 core
 
-in vec3 position;
-in vec3 normal;
-in vec2 uv;
+in vec2 TexCoords;
 
+out vec4 color;
 
-out vec3 fragNormal;
-out vec2 fragmentUV;
-out vec3 fragPos;
-out vec3 pointLightPos2;
-out vec3 fragCameraPos;
+uniform sampler2D texture_diffuse1;
 
-uniform mat4 model;
-uniform mat4 VP;
-uniform vec3 pointLightPos;
-uniform vec3 cameraPos;
-
-void main() {
-	fragmentUV = uv;
-	fragNormal = (model * vec4(normal, 0)).xyz;
-	gl_Position = VP * model * vec4(position, 1.0f);
-	pointLightPos2 = vec3(model * vec4(pointLightPos, 1.0f));
-	fragPos = vec3(model * vec4(position, 1.0f));
-	fragCameraPos = cameraPos;
-	
+void main()
+{    
+    color = vec4(texture(texture_diffuse1, TexCoords));
 }

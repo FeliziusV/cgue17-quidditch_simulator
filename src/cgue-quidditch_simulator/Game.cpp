@@ -31,6 +31,7 @@ void Game::init(GLFWwindow* window)
 
 	shader = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
 	//Shader modelShader("Shader/basic.vert", "Shader/basic.frag");
+	modelShader = std::make_unique<Shader>("Shader/model.vert", "Shader/model.frag");
 
 	//cube 1 chessfield
 	//*********************************************
@@ -58,6 +59,9 @@ void Game::init(GLFWwindow* window)
 	//pointLight
 	//***********************************************
 	pointLight = std::make_unique<PointLight>(glm::vec3(4.0f, 6.0f, -5.0f));
+
+
+	modelShader->useShader();
 
 
 	shader->useShader();
@@ -118,6 +122,7 @@ void Game::update(float time_delta) {
 
 void Game::cleanUp() {
 	shader.reset(nullptr);
+	modelShader.reset(nullptr);
 	cube1.reset(nullptr);
 	texture1.reset(nullptr);
 	cube2.reset(nullptr);
@@ -140,7 +145,6 @@ void Game::draw() {
 	//load Light Location to Shader
 	glm::vec3 pointLightPosition = pointLight->getPosition();
 	auto pointLightLocation = glGetUniformLocation(shader->programHandle, "pointLightPos");
-	//glUniformMatrix4fv(pointLightLocation, 1, GL_FALSE, glm::value_ptr(pointLightPosition));
 	glUniform3f(pointLightLocation, pointLightPosition.x, pointLightPosition.y, pointLightPosition.z);
 
 	//load Camera Location to Shader
@@ -178,8 +182,26 @@ void Game::draw() {
 	glUniform1i(texture_location3, 2);
 	cube3->draw();
 
-	//nanosuit
+	//nanosuit with model shader
 	//**********************************************
+	modelShader->useShader();
+	//load camera
+	view_projection = projection * camera->view;
+	view_projection_location = glGetUniformLocation(modelShader->programHandle, "VP");
+	glUniformMatrix4fv(view_projection_location, 1, GL_FALSE, glm::value_ptr(view_projection));
+	
+	 
+	//load Light Location to Shader
+	//auto pointLightLocation = glGetUniformLocation(modelShader->programHandle, "pointLightPos");
+	//glUniform3f(pointLightLocation, pointLightPosition.x, pointLightPosition.y, pointLightPosition.z);
+
+	//load Camera Location to Shader
+	//auto cameraLocation = glGetUniformLocation(modelShader->programHandle, "cameraPos");
+	//glUniform3f(cameraLocation, camera->position.x, camera->position.y, camera->position.z);
+
+	//auto model_location = glGetUniformLocation(modelShader->programHandle, "model");
+	//glUniformMatrix4fv(model_location, 1, GL_FALSE, nanoSuit);
+
 	nanoSuit->draw(shader.get());
 
 }
