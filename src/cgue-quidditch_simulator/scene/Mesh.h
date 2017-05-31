@@ -8,6 +8,7 @@
 using namespace std;
 using namespace cgue;
 class Mesh {
+public:
 
 	struct Vertex {
 		glm::vec3 Position;
@@ -21,7 +22,6 @@ class Mesh {
 		string type;
 	};
 
-public:
 	vector<Vertex> vertices;
 	vector<GLuint> indices;
 	vector<Texture> textures;
