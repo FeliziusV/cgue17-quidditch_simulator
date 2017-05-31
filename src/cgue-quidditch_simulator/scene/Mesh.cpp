@@ -1,5 +1,7 @@
 #include "Mesh.h"
-
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures) {
 	this->vertices = vertices;
@@ -42,5 +44,28 @@ void Mesh::setupMesh()
 };
 
 void Mesh::draw(Shader shader) {
+	GLuint diffuseNr = 1;
+	GLuint specularNr = 1;
+	for (GLuint i = 0; i < this->textures.size(); i++) {
+		glActiveTexture(GL_TEXTURE0 + i);
+		stringstream ss;
+		string number;
+		string name = this->textures[i].type;
+		if (name == "texture_diffuse"){
+			ss << diffuseNr++;
+		}
+		else if (name == "texture_specular") {
+			ss << specularNr++;
+		}
+		number = ss.str();
+
+		glUniform1f(glGetUniformLocation(shader.programHandle, ("material." + name + number).c_str()), i);
+		glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
+	}
+	glActiveTexture(GL_TEXTURE0);
+	//Draw Mesh
+	glBindVertexArray(this->VAO);
+	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 
 };
