@@ -42,6 +42,12 @@
     <ClCompile Include="shader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="scene\Model.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\ModelTexture.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene\SceneObject.h">
@@ -66,6 +72,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="shader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\Model.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\ModelTexture.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

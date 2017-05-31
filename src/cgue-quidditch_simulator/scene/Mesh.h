@@ -5,6 +5,11 @@
 #include "glm\vec3.hpp"
 #include "../shader.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+
 using namespace std;
 using namespace cgue;
 class Mesh {
@@ -20,6 +25,7 @@ public:
 	struct Texture {
 		GLuint id;
 		string type;
+		aiString path;
 	};
 
 	vector<Vertex> vertices;
