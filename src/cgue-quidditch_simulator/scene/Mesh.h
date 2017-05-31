@@ -33,7 +33,7 @@ public:
 	vector<Texture> textures;
 
 	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures);
-	void draw(Shader shader);
+	void draw(Shader* shader);
 
 private:
 	GLuint VAO, VBO, EBO;

@@ -7,6 +7,7 @@
 #include "scene\Texture.h"
 #include "scene\Camera.h"
 #include "scene\PointLight.h"
+#include "scene\Model.h"
 
 using namespace cgue;
 
@@ -35,6 +36,10 @@ public:
 	std::unique_ptr<cgue::scene::Cube> cube3;
 	glm::vec3 cube3loc;
 	std::unique_ptr<cgue::Texture> texture3;
+
+
+	std::unique_ptr<Model> nanoSuit;
+
 
 	std::unique_ptr<PointLight> pointLight;
 

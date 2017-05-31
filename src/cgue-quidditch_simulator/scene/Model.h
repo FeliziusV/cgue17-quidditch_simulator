@@ -13,7 +13,7 @@ class Model {
 public:
 	Model(GLchar* path);
 	
-	void draw(cgue::Shader shader);
+	void draw(cgue::Shader* shader);
 
 private:
 	vector<Mesh> meshes;

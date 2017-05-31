@@ -30,6 +30,7 @@ void Game::init(GLFWwindow* window)
 	glfwSetWindowTitle(this->window, "CGUE Project");
 
 	shader = std::make_unique<Shader>("Shader/basic.vert", "Shader/basic.frag");
+	//Shader modelShader("Shader/basic.vert", "Shader/basic.frag");
 
 	//cube 1 chessfield
 	//*********************************************
@@ -50,6 +51,9 @@ void Game::init(GLFWwindow* window)
 	//cube3->modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(3, 0.1, 6));
 	//cube3->modelMatrix = glm::rotate(cube3->modelMatrix, glm::radians(-90.0f), glm::vec3(0, 1, 0));
 	cube3loc = glm::vec3(6.0f, 6.0f, -5.0f);
+
+	//nanoSuit = std::make_unique<Model>("cgue-quidditch_simulator/Resources/nanosuit/nanosuit.obj");
+	Model nanoSuit("cgue-quidditch_simulator/Resources/nanosuit/nanosuit.obj");
 
 	//pointLight
 	//***********************************************
@@ -120,6 +124,8 @@ void Game::cleanUp() {
 	texture2.reset(nullptr);
 	cube3.reset(nullptr);
 	texture3.reset(nullptr);
+	nanoSuit.reset(nullptr);
+	
 	camera.reset(nullptr);
 	pointLight.reset(nullptr);
 
@@ -172,7 +178,9 @@ void Game::draw() {
 	glUniform1i(texture_location3, 2);
 	cube3->draw();
 
-
+	//nanosuit
+	//**********************************************
+	nanoSuit->draw(shader.get());
 
 }
 

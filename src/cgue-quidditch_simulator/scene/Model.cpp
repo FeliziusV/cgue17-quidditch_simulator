@@ -9,7 +9,7 @@ Model::Model(GLchar* path) {
 	this->loadModel(path);
 }
 
-void Model::draw(Shader shader) {
+void Model::draw(Shader* shader) {
 	for (GLuint i = 0; i < this->meshes.size(); i++) {
 		this->meshes[i].draw(shader);
 	}
