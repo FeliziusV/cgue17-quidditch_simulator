@@ -53,8 +53,12 @@ void Game::init(GLFWwindow* window)
 	//cube3->modelMatrix = glm::rotate(cube3->modelMatrix, glm::radians(-90.0f), glm::vec3(0, 1, 0));
 	cube3loc = glm::vec3(6.0f, 6.0f, -5.0f);
 
+
+	//Model nanoSuit 
+	//**********************************************
 	//nanoSuit = std::make_unique<Model>("cgue-quidditch_simulator/Resources/nanosuit/nanosuit.obj");
 	Model nanoSuit("cgue-quidditch_simulator/Resources/nanosuit/nanosuit.obj");
+
 
 	//pointLight
 	//***********************************************
@@ -199,10 +203,13 @@ void Game::draw() {
 	//auto cameraLocation = glGetUniformLocation(modelShader->programHandle, "cameraPos");
 	//glUniform3f(cameraLocation, camera->position.x, camera->position.y, camera->position.z);
 
-	//auto model_location = glGetUniformLocation(modelShader->programHandle, "model");
-	//glUniformMatrix4fv(model_location, 1, GL_FALSE, nanoSuit);
+	auto model_location = glGetUniformLocation(modelShader->programHandle, "model");
+	glm::mat4 model;
+	model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+	glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
 
-	nanoSuit->draw(shader.get());
+	nanoSuit->draw(modelShader.get());
 
 }
 

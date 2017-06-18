@@ -11,13 +11,14 @@ using namespace std;
 
 class Model {
 public:
-	Model(GLchar* path);
-	
+	Model(char *path);
+	unsigned int TextureFromFile(const char *path, const string &directory, bool gamma);
 	void draw(cgue::Shader* shader);
 
 private:
 	vector<Mesh> meshes;
 	string directory;
+	vector<Mesh::Texture> textures_loaded;
 
 	void loadModel(string path);
 	void processNode(aiNode* node, const aiScene* scene);

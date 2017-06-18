@@ -25,7 +25,7 @@ public:
 	struct Texture {
 		GLuint id;
 		string type;
-		aiString path;
+		aiString path;	// we store the path of the texture to compare with other textures
 	};
 
 	vector<Vertex> vertices;

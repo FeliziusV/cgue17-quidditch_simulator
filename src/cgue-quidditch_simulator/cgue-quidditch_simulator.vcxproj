@@ -161,6 +161,7 @@
     <ClCompile Include="scene\ModelTexture.cpp" />
     <ClCompile Include="scene\PointLight.cpp" />
     <ClCompile Include="scene\SceneObject.cpp" />
+    <ClCompile Include="scene\stb_image.cpp" />
     <ClCompile Include="scene\Texture.cpp" />
     <ClCompile Include="shader.cpp" />
   </ItemGroup>
