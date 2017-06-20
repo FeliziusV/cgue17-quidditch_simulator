@@ -1,8 +1,17 @@
-﻿  Cube.cpp
+﻿  Game.cpp
+  Camera.cpp
+  Cube.cpp
+  main.cpp
+  PointLight.cpp
+scene\PointLight.cpp(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+scene\PointLight.cpp(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  SceneObject.cpp
+  Texture.cpp
+  shader1.cpp
   Generating code
-  1 of 433 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    16 functions had inline decision re-evaluated but remain unchanged
+  454 of 457 functions (99.3%) were compiled, the rest were copied from previous compilation.
+    37 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  cgue-quidditch_simulator.vcxproj -> C:\Users\josch_000\Documents\Visual Studio 2015\Projects\cgue17-quidditch_simulator\src\Release\cgue-quidditch_simulator.exe
-  cgue-quidditch_simulator.vcxproj -> C:\Users\josch_000\Documents\Visual Studio 2015\Projects\cgue17-quidditch_simulator\src\Release\cgue-quidditch_simulator.pdb (Full PDB)
+  cgue-quidditch_simulator.vcxproj -> C:\Users\Joschi\Documents\Visual Studio 2015\Projects\cgue17-quidditch_simulator\src\Release\cgue-quidditch_simulator.exe
+  cgue-quidditch_simulator.vcxproj -> C:\Users\Joschi\Documents\Visual Studio 2015\Projects\cgue17-quidditch_simulator\src\Release\cgue-quidditch_simulator.pdb (Full PDB)
