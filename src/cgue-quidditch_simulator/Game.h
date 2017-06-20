@@ -24,22 +24,14 @@ public:
 
 
 	GLFWwindow* window;
-	ModelShader modelShader;
+	std::unique_ptr<ModelShader> modelShader;
+	std::unique_ptr<ModelShader> skyboxShader;
+
 	std::unique_ptr<Camera> camera;
 
-	std::unique_ptr<cgue::scene::Cube> cube1;
-	std::unique_ptr<cgue::Texture> texture1;
 
-	std::unique_ptr<cgue::scene::Cube> cube2;
-	std::unique_ptr<cgue::Texture> texture2;
-
-	std::unique_ptr<cgue::scene::Cube> cube3;
-	glm::vec3 cube3loc;
-	std::unique_ptr<cgue::Texture> texture3;
-
-
-	Model nanoSuit;
-
+	std::unique_ptr<Model> nanoSuit;
+	//unsigned int loadCubemap(vector<std::string> faces);
 
 	std::unique_ptr<PointLight> pointLight;
 
