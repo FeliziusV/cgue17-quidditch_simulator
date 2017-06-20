@@ -2,11 +2,12 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include <SDL2\SDL.h>
-#include "shader1.h"
+#include "scene\ModelShader.h"
 #include "scene\Cube.h"
 #include "scene\Texture.h"
 #include "scene\Camera.h"
 #include "scene\PointLight.h"
+#include "scene\Model.h"
 
 using namespace cgue;
 
@@ -23,7 +24,7 @@ public:
 
 
 	GLFWwindow* window;
-	std::unique_ptr<Shader> shader;
+	ModelShader modelShader;
 	std::unique_ptr<Camera> camera;
 
 	std::unique_ptr<cgue::scene::Cube> cube1;
@@ -35,6 +36,10 @@ public:
 	std::unique_ptr<cgue::scene::Cube> cube3;
 	glm::vec3 cube3loc;
 	std::unique_ptr<cgue::Texture> texture3;
+
+
+	Model nanoSuit;
+
 
 	std::unique_ptr<PointLight> pointLight;
 

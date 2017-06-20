@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneObject.h"
-#include "..\shader1.h"
+#include "..\shader.h"
 
 
 #define CUBE_VERTEX_COUNT 8
