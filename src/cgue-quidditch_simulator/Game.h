@@ -21,6 +21,8 @@ public:
 	void Game::update(float time_delta);
 	void Game::cleanUp();
 	void Game::draw();
+	void Game::drawSkybox();
+	unsigned int Game::loadCubemap(vector<string> faces);
 
 
 	GLFWwindow* window;
@@ -31,14 +33,18 @@ public:
 
 
 	std::unique_ptr<Model> nanoSuit;
-	//unsigned int loadCubemap(vector<std::string> faces);
-
 	std::unique_ptr<PointLight> pointLight;
 
 	int width;
 	int height;
 	float time_delta;
 	glm::mat4 projection;
+	static const float skyboxVertices[108];
+	static const float cubeVertices[180];
+	GLuint cubeVAO, cubeVBO;
+	GLuint skyboxVAO, skyboxVBO;
+
+	GLuint cubemapTexture;
 };
 
 
