@@ -51,7 +51,7 @@
     <ClCompile Include="scene\stb_image.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="scene\ModelShadercpp.cpp">
+    <ClCompile Include="scene\ModelShader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

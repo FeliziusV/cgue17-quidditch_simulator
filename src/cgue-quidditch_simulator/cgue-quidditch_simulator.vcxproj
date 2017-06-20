@@ -158,7 +158,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene\Mesh.cpp" />
     <ClCompile Include="scene\Model.cpp" />
-    <ClCompile Include="scene\ModelShadercpp.cpp" />
+    <ClCompile Include="scene\ModelShader.cpp" />
     <ClCompile Include="scene\ModelTexture.cpp" />
     <ClCompile Include="scene\PointLight.cpp" />
     <ClCompile Include="scene\SceneObject.cpp" />

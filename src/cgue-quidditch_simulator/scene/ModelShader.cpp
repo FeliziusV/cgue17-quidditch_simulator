@@ -73,7 +73,7 @@ ModelShader::ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath) {
 	glAttachShader(this->ID, vertex);
 	glAttachShader(this->ID, fragment);
 	glLinkProgram(this->ID);
-	// print liking errors if any
+	// print linking errors if any
 	glGetProgramiv(this->ID, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(this->ID, 512, NULL, infoLog);

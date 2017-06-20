@@ -9,18 +9,18 @@ Model::Model(char* path) {
 	this->loadModel(path);
 }
 
-void Model::draw(Shader* shader) {
+void Model::draw(ModelShader shader) {
 	for (unsigned int i = 0; i < this->meshes.size(); i++) {
 		this->meshes[i].draw(shader);
 	}
 }
 
-void Model::loadModel(string path) {
+void Model::loadModel(string const &path) {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 	//import model and translate it in assimps scene object...
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-		cout << "Error::ASSIMO::" << importer.GetErrorString() << endl;
+		cout << "Error::ASSIMP::" << importer.GetErrorString() << endl;
 		system("PAUSE");
 		exit(EXIT_FAILURE);
 		return;

@@ -24,7 +24,7 @@ public:
 
 
 	GLFWwindow* window;
-	std::unique_ptr<ModelShader> modelShader;
+	ModelShader modelShader;
 	std::unique_ptr<Camera> camera;
 
 	std::unique_ptr<cgue::scene::Cube> cube1;
@@ -38,7 +38,7 @@ public:
 	std::unique_ptr<cgue::Texture> texture3;
 
 
-	std::unique_ptr<Model> nanoSuit;
+	Model nanoSuit;
 
 
 	std::unique_ptr<PointLight> pointLight;
