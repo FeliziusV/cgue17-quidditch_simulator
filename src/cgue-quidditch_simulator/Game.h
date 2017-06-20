@@ -2,7 +2,7 @@
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include <SDL2\SDL.h>
-#include "shader.h"
+#include "scene\ModelShader.h"
 #include "scene\Cube.h"
 #include "scene\Texture.h"
 #include "scene\Camera.h"
@@ -24,8 +24,7 @@ public:
 
 
 	GLFWwindow* window;
-	std::unique_ptr<Shader> shader;
-	std::unique_ptr<Shader> modelShader;
+	std::unique_ptr<ModelShader> modelShader;
 	std::unique_ptr<Camera> camera;
 
 	std::unique_ptr<cgue::scene::Cube> cube1;

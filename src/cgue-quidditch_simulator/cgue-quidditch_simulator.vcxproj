@@ -158,6 +158,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene\Mesh.cpp" />
     <ClCompile Include="scene\Model.cpp" />
+    <ClCompile Include="scene\ModelShadercpp.cpp" />
     <ClCompile Include="scene\ModelTexture.cpp" />
     <ClCompile Include="scene\PointLight.cpp" />
     <ClCompile Include="scene\SceneObject.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="scene\Cube.h" />
     <ClInclude Include="scene\Mesh.h" />
     <ClInclude Include="scene\Model.h" />
+    <ClInclude Include="scene\ModelShader.h" />
     <ClInclude Include="scene\ModelTexture.h" />
     <ClInclude Include="scene\PointLight.h" />
     <ClInclude Include="scene\SceneObject.h" />

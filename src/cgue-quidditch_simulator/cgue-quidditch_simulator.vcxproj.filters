@@ -51,6 +51,9 @@
     <ClCompile Include="scene\stb_image.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="scene\ModelShadercpp.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene\SceneObject.h">
@@ -81,6 +84,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="scene\ModelTexture.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\ModelShader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

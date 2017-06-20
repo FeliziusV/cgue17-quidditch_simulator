@@ -3,7 +3,7 @@
 #include <vector>
 #include "glm\vec2.hpp"
 #include "glm\vec3.hpp"
-#include "../shader.h"
+#include "ModelShader.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -11,7 +11,6 @@
 
 
 using namespace std;
-using namespace cgue;
 class Mesh {
 public:
 
@@ -33,7 +32,7 @@ public:
 	vector<Texture> textures;
 
 	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures);
-	void draw(Shader* shader);
+	void draw(ModelShader shader);
 
 private:
 	GLuint VAO, VBO, EBO;
