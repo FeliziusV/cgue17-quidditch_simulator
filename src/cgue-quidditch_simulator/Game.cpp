@@ -44,7 +44,9 @@ void Game::init(GLFWwindow* window)
 	//Shaders
 	modelShader = std::make_unique<ModelShader>("Shader/model.vert", "Shader/model.frag");
 	skyboxShader = std::make_unique<ModelShader>("Shader/skybox.vert", "Shader/skybox.frag");
+	skyboxShader->use();
 	skyboxShader->setInt("skybox", 0);
+	modelShader->use();
 
 	//Model nanoSuit 
 	//**********************************************
@@ -131,14 +133,7 @@ void Game::cleanUp() {
 
 void Game::draw() {
 
-	// cube
-	/*glBindVertexArray(cubeVAO);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, cubeTexture);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
-	*/
-
+	modelShader->use();
 
 	//load VP Matrix to Shader
 	glm::mat4 view_projection = projection * camera->view;
@@ -158,7 +153,6 @@ void Game::draw() {
 
 	//nanosuit with model shader
 	//**********************************************
-	modelShader->use();
 
 
 	//load Light Location to Shader
@@ -179,13 +173,25 @@ void Game::draw() {
 
 	//______________________________________________
 	// draw skybox
-	drawSkybox();
+	glDepthFunc(GL_LEQUAL);
+	skyboxShader->use();
+	glm::mat4 view = glm::mat4(glm::mat3(camera->view));
+	skyboxShader->setMat4("view", view);
+	skyboxShader->setMat4("projection", projection);
+	// draw skybox Cube
+	glBindVertexArray(skyboxVAO);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+	glDepthFunc(GL_LESS);
 }
 
 
 
 unsigned int Game::loadCubemap (vector<std::string> faces) {
 	// cube VAO
+	/*
 	glGenVertexArrays(1, &cubeVAO);
 	glGenBuffers(1, &cubeVBO);
 	glBindVertexArray(cubeVAO);
@@ -195,6 +201,7 @@ unsigned int Game::loadCubemap (vector<std::string> faces) {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	*/
 
 	//skybox VAO
 	glGenVertexArrays(1, &skyboxVAO);
@@ -238,19 +245,7 @@ unsigned int Game::loadCubemap (vector<std::string> faces) {
 }
 
 void Game::drawSkybox() {
-	//draw skybox
-	glDepthFunc(GL_LEQUAL);
-	skyboxShader->use();
-	glm::mat4 view = glm::mat4(glm::mat3(camera->view));
-	skyboxShader->setMat4("view", view);
-	skyboxShader->setMat4("projection", projection);
-	// draw skybox Cube
-	glBindVertexArray(skyboxVAO);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
-	glDepthFunc(GL_LESS);
+
 }
 
 const float Game::skyboxVertices[108] = {
