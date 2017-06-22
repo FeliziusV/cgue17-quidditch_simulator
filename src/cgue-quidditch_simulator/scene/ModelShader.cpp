@@ -30,6 +30,8 @@ ModelShader::ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath) {
 	}
 	catch (ifstream::failure e) {
 		cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << endl;
+		system("PAUSE");
+		exit(EXIT_FAILURE);
 	}
 	const char* vShaderCode = vertexCode.c_str();
 	const char* fShaderCode = fragmentCode.c_str();
@@ -52,7 +54,8 @@ ModelShader::ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath) {
 	if (!success) {
 		glGetShaderInfoLog(vertex, 512, NULL, infoLog);
 		cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
-
+		system("PAUSE");
+		exit(EXIT_FAILURE);
 	};
 
 	// fragment Shader
@@ -65,7 +68,8 @@ ModelShader::ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath) {
 	if (!success) {
 		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
 		cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
-
+		system("PAUSE");
+		exit(EXIT_FAILURE);
 	};
 
 	// shader Program
@@ -78,6 +82,8 @@ ModelShader::ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath) {
 	if (!success) {
 		glGetProgramInfoLog(this->ID, 512, NULL, infoLog);
 		cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << endl;
+		system("PAUSE");
+		exit(EXIT_FAILURE);
 	}
 
 	// delete the shaders as they are linked into our program now and no longer necessery

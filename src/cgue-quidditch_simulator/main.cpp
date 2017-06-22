@@ -22,8 +22,7 @@ using namespace cgue::scene;
 void glfw_on_error(int error_code, const char* desc);
 void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 bool keys[1024] = {0};
-
-std::string FormatDebugOutput(GLenum source, GLenum type, GLuint id, 
+std::string FormatDebugOutput(GLenum source, GLenum type, GLuint id,
 	GLenum severity, const char* msg);
 void APIENTRY DebugCallback(GLenum source, GLenum type, GLuint id, 
 	GLenum severity, GLsizei length, const GLchar* message, const GLvoid* userParam);
@@ -136,6 +135,30 @@ int main(int argc, char** argv) {
 	if ((_glDebugMessageCallback != NULL) || (_glDebugMessageCallbackARB != NULL)) {
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	}
+	// 131185
+	GLuint *IDS = new GLuint[1]{ 131185 };
+	//void glDebugMessageControl(GLenum source, GLenum type, GLenum severity, GLsize count, const GLuint *ids, GLboolean enabled);
+	glDebugMessageControl(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_OTHER, GL_DONT_CARE, 1, IDS, false);
+	/*
+	source:
+	The source of debug messages to enable or disable.
+
+	type:
+	the type of debug messages to enable or disable
+
+	severity:
+	the severity of debug messages to enable or disable
+
+	count:
+	the length of the array ids
+
+	ids:
+	the address of an array of unsigned integers containing the ids of the messages toenable or disable
+
+	enabled:
+	a boolean flag determining whether the selected messages should be enabled or disabled
+	*/
+
 #endif
 
 

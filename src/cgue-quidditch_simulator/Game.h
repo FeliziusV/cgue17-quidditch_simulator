@@ -23,11 +23,13 @@ public:
 	void Game::draw();
 	void Game::drawSkybox();
 	unsigned int Game::loadCubemap(vector<string> faces);
+	GLuint Game::loadTexture(char const *path);
 
 
 	GLFWwindow* window;
 	std::unique_ptr<ModelShader> modelShader;
 	std::unique_ptr<ModelShader> skyboxShader;
+	std::unique_ptr<ModelShader> cubeMapShader;
 
 	std::unique_ptr<Camera> camera;
 
@@ -45,6 +47,7 @@ public:
 	GLuint skyboxVAO, skyboxVBO;
 
 	GLuint cubemapTexture;
+	GLuint cubeTexture;
 };
 
 
