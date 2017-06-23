@@ -167,12 +167,9 @@ void Game::draw() {
 	//nanosuit with model shader
 	modelShader->use();
 	//load Camera Location to Shader
-	//auto cameraLocation = glGetUniformLocation(modelShader->programHandle, "cameraPos");
-	//glUniform3f(cameraLocation, camera->position.x, camera->position.y, camera->position.z);
-	
+	modelShader->setVec3("cameraPos", cameraPos);
 	//load light location to shader
-	//auto pointLightLocation = glGetUniformLocation(shader->programHandle, "pointLightPos");
-	//glUniform3f(pointLightLocation, pointLightPosition.x, pointLightPosition.y, pointLightPosition.z);
+	modelShader->setVec3("pointLightPos", pointLightPosition);
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0f, -20.0f, -100.0f));
 	model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));

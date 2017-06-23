@@ -1,7 +1,7 @@
 #version 330
 
-in vec3 fragNormal;
 in vec2 fragmentUV;
+in vec3 fragNormal;
 in vec3 fragPos;
 in vec3 pointLightPos2;
 in vec3 fragCameraPos;
