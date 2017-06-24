@@ -35,6 +35,8 @@ public:
 
 
 	std::unique_ptr<Model> nanoSuit;
+	std::unique_ptr<Model> player;
+	std::unique_ptr<Model> stadium;
 	std::unique_ptr<PointLight> pointLight;
 
 	int width;

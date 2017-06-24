@@ -68,6 +68,17 @@ void Game::init(GLFWwindow* window)
 	nanoSuit = std::make_unique<Model>(path);
 
 	//______________________________________________
+	//Model quidditch stadium
+	path = "cgue-quidditch_simulator/Resources/Quidditch_Stadium/Quidditch_Stadium.obj";
+	stadium = std::make_unique<Model>(path);
+
+
+	//______________________________________________
+	// Model quidditch Player
+	path = "cgue-quidditch_simulator/Resources/positioned_player/positioned_player.obj";
+	player = std::make_unique<Model>(path);
+
+	//______________________________________________
 	//pointLight
 	pointLight = std::make_unique<PointLight>(glm::vec3(4.0f, 6.0f, -5.0f));
 
@@ -76,7 +87,7 @@ void Game::init(GLFWwindow* window)
 	glfwGetWindowSize(this->window, &width, &height);
 	glm::vec3 position = glm::vec3(0, 2.0f, 0);
 	camera = std::make_unique<Camera>(position);
-	projection = glm::perspective(45.0f, width / (float)height, 0.1f, 200.0f);
+	projection = glm::perspective(45.0f, width / (float)height, 0.1f, 400.0f);
 
 	FreeImage_Initialise(true);
 
@@ -128,8 +139,10 @@ void Game::cleanUp() {
 	//______________________________________________
 	// Models
 	nanoSuit.reset(nullptr);
+	stadium.reset(nullptr);
 	modelShader.reset(nullptr);
 	skyboxShader.reset(nullptr);
+	cubeMapShader.reset(nullptr);
 
 	//______________________________________________
 	// camera Lights
@@ -176,7 +189,14 @@ void Game::draw() {
 	modelShader->setMat4("VP", view_projection);
 	modelShader->setMat4("model", model);
 	nanoSuit->draw(*modelShader);
-
+	
+	//______________________________________________
+	modelShader->use();
+	model = glm::mat4();
+	//model = glm::translate(model, glm::vec3(0.0f, -50.0f, 0.0f));
+	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+	modelShader->setMat4("model", model);
+	player->draw(*modelShader);
 
 	//______________________________________________
 	// draw box
