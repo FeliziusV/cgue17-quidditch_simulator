@@ -4,6 +4,7 @@
 #include <sstream>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\rotate_vector.hpp>
 #include <FreeImage\FreeImage.h>
 #include <stb_image.h>
 
@@ -140,6 +141,10 @@ void Game::cleanUp() {
 	// Models
 	nanoSuit.reset(nullptr);
 	stadium.reset(nullptr);
+	player.reset(nullptr);
+
+	//______________________________________________
+	// Shader
 	modelShader.reset(nullptr);
 	skyboxShader.reset(nullptr);
 	cubeMapShader.reset(nullptr);
@@ -155,6 +160,7 @@ void Game::cleanUp() {
 	glDeleteVertexArrays(1, &skyboxVAO);
 	glDeleteBuffers(1, &cubeVBO);
 	glDeleteBuffers(1, &skyboxVAO);
+
 
 }
 
@@ -185,19 +191,30 @@ void Game::draw() {
 	modelShader->setVec3("pointLightPos", pointLightPosition);
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0f, -20.0f, -100.0f));
-	model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 	modelShader->setMat4("VP", view_projection);
 	modelShader->setMat4("model", model);
 	nanoSuit->draw(*modelShader);
 	
 	//______________________________________________
+	// draw player
 	modelShader->use();
-	model = glm::mat4();
-	//model = glm::translate(model, glm::vec3(0.0f, -50.0f, 0.0f));
-	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+	//glm::vec3 playerPos = glm::vec3(1.0);
+	//playerPos = glm::vec3(-playerPos.x, playerPos.y, -playerPos.z);
+	//playerPos = glm::vec3(cameraPos.x, cameraPos.y - 0.5, cameraPos.z);
+	//playerPos = glm::rotateX(glm::angle(180.0f);
+	model = glm::mat4(camera->model);
+	model = glm::translate(model, glm::vec3(0.0f, 3.7f, 0.0f));
 	modelShader->setMat4("model", model);
 	player->draw(*modelShader);
 
+	//______________________________________________
+	// draw stadium
+	model = glm::mat4();
+	model = glm::translate(model, glm::vec3(0.0f, -20.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+	modelShader->setMat4("model", model);
+	stadium->draw(*modelShader);
+	
 	//______________________________________________
 	// draw box
 	cubeMapShader->use();

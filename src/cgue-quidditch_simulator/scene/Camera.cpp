@@ -26,7 +26,9 @@ Camera::~Camera() {
 
 void Camera::update(float time_delta) {
 	
+	if(speed.z)
 	this->position += FRONT * (speed.z * time_delta);
+	this->mposition += mFRONT * (speed.z * time_delta);
 	doMovement(time_delta);
 	glm::vec3 front;
 	front.x = cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
@@ -35,22 +37,33 @@ void Camera::update(float time_delta) {
 	this->FRONT = glm::normalize(front);
 	this->RIGHT = glm::normalize(glm::cross(this->FRONT, this->worldUp));
 	this->UP = glm::normalize(glm::cross(this->RIGHT, this->FRONT));
+
+	glm::vec3 mfront;
+	mfront.x = cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
+	mfront.y = sin(glm::radians(-this->pitch));
+	mfront.z = sin(glm::radians(-this->yaw)) * cos(glm::radians(this->pitch));
+	this->mFRONT = glm::normalize(mfront);
+	this->mRIGHT = glm::normalize(glm::cross(this->mFRONT, this->worldUp));
+	this->mUP = glm::normalize(glm::cross(this->mRIGHT, this->mFRONT));
 	calcViewMatrix();
 	
 }
 
 void Camera::calcViewMatrix() {
 	this->view = glm::lookAt(this->position, this->position + this->FRONT, this->UP);
+	this->model = glm::lookAt(this->position, this->position + this->mFRONT, this->mUP);
+	//this->model = glm::translate(model, this->position);
+	//this->model = glm::lookAt(this->position, this-> position + this->FRONT, this->UP);
 }
 
 void Camera::doMovement(float time_delta) {
 	if (this->space) {
-		if (pitch < 89.0f) {
+		if (pitch < 88.0f) {
 			this->pitch += 100.0f * time_delta;
 		}
 	}
 	if (this->shift) {
-		if (pitch > -89.0f) {
+		if (pitch > -88.0f) {
 			this->pitch += -100.0f * time_delta;
 		}
 	}
@@ -66,7 +79,7 @@ void Camera::doMovement(float time_delta) {
 		}
 	}
 	if (this->down) {
-		if (speed.z > 0.1f) {
+		if (speed.z > -100.0f) {
 			speed.z += -0.1f;
 		}
 	}

@@ -28,6 +28,7 @@ public:
 	glm::mat4 view;
 	glm::mat4 view_projection;
 	glm::mat4 rotation;
+	glm::mat4 model;
 
 	float yaw;
 	float pitch;
@@ -35,6 +36,10 @@ public:
 	glm::vec3 FRONT;
 	glm::vec3 RIGHT;
 	glm::vec3 UP;
+	glm::vec3 mposition;
+	glm::vec3 mFRONT;
+	glm::vec3 mRIGHT;
+	glm::vec3 mUP;
 	glm::vec3 worldUp;
 
 	bool space;
